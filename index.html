@@ -12,10 +12,10 @@
 
 body {
   margin: 0;
-  background: #111;
-  color: white;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
                "Helvetica Neue", Arial, sans-serif;
+  background: #111;
+  color: white;
 }
 
 .app {
@@ -32,7 +32,8 @@ h1 {
 
 .subtitle {
   color: #999;
-  margin: 5px 0 25px;
+  margin-top: 5px;
+  margin-bottom: 25px;
 }
 
 .card {
@@ -81,7 +82,7 @@ h1 {
 }
 
 .add-button:active {
-  transform: scale(.98);
+  transform: scale(0.98);
 }
 
 .empty {
@@ -110,36 +111,12 @@ h1 {
 }
 
 .work-money {
-  margin-top: 5px;
+  color: #4cd964;
   font-weight: 600;
+  margin-top: 5px;
 }
 
-.actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.edit-button,
-.delete-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.edit-button {
-  background: #333;
-  color: white;
-}
-
-.delete-button {
-  background: #3a2020;
-  color: #ff6b6b;
-}
-
-/* Modal */
+/* 新增工作視窗 */
 
 .modal {
   display: none;
@@ -148,7 +125,6 @@ h1 {
   background: rgba(0,0,0,.75);
   align-items: flex-end;
   justify-content: center;
-  z-index: 100;
 }
 
 .modal.show {
@@ -262,13 +238,13 @@ select {
 </div>
 
 
-<!-- 新增 / 修改工作 -->
+<!-- 新增工作 -->
 
 <div class="modal" id="modal">
 
   <div class="modal-box">
 
-    <div class="modal-title" id="modalTitle">
+    <div class="modal-title">
       新增工作
     </div>
 
@@ -295,10 +271,14 @@ select {
     </select>
 
     <label>備註</label>
-    <input type="text" id="note" placeholder="例如：草莓農場">
+    <input
+      type="text"
+      id="note"
+      placeholder="例如：草莓農場"
+    >
 
     <button class="save-button" onclick="saveWork()">
-      儲存
+      儲存工作
     </button>
 
     <button class="cancel-button" onclick="closeModal()">
@@ -315,38 +295,17 @@ select {
 let works =
   JSON.parse(localStorage.getItem("salaryWorks") || "[]");
 
-let editingId = null;
-
-
-/* 開啟新增 */
 
 function openModal() {
 
-  editingId = null;
-
-  document.getElementById("modalTitle").innerText =
-    "新增工作";
+  document.getElementById("modal")
+    .classList.add("show");
 
   document.getElementById("date").value =
     new Date().toISOString().split("T")[0];
 
-  document.getElementById("start").value = "";
-
-  document.getElementById("end").value = "";
-
-  document.getElementById("break").value = 30;
-
-  document.getElementById("rate").value = 30;
-
-  document.getElementById("type").value = "white";
-
-  document.getElementById("note").value = "";
-
-  document.getElementById("modal").classList.add("show");
 }
 
-
-/* 關閉 */
 
 function closeModal() {
 
@@ -355,48 +314,6 @@ function closeModal() {
 
 }
 
-
-/* 修改 */
-
-function editWork(id) {
-
-  const work =
-    works.find(item => item.id === id);
-
-  if (!work) return;
-
-  editingId = id;
-
-  document.getElementById("modalTitle").innerText =
-    "修改工作";
-
-  document.getElementById("date").value =
-    work.date;
-
-  document.getElementById("start").value =
-    work.start;
-
-  document.getElementById("end").value =
-    work.end;
-
-  document.getElementById("break").value =
-    work.breakMinutes;
-
-  document.getElementById("rate").value =
-    work.rate;
-
-  document.getElementById("type").value =
-    work.type;
-
-  document.getElementById("note").value =
-    work.note || "";
-
-  document.getElementById("modal")
-    .classList.add("show");
-}
-
-
-/* 儲存 */
 
 function saveWork() {
 
@@ -410,10 +327,14 @@ function saveWork() {
     document.getElementById("end").value;
 
   const breakMinutes =
-    Number(document.getElementById("break").value || 0);
+    Number(
+      document.getElementById("break").value || 0
+    );
 
   const rate =
-    Number(document.getElementById("rate").value || 0);
+    Number(
+      document.getElementById("rate").value || 0
+    );
 
   const type =
     document.getElementById("type").value;
@@ -424,7 +345,9 @@ function saveWork() {
 
   if (!date || !start || !end || !rate) {
 
-    alert("請把日期、上下班時間和時薪填完整");
+    alert(
+      "請把日期、上下班時間和時薪填完整"
+    );
 
     return;
   }
@@ -461,58 +384,32 @@ function saveWork() {
     hours * rate;
 
 
-  /* 修改現有紀錄 */
+  const work = {
 
-  if (editingId !== null) {
+    id: Date.now(),
 
-    const index =
-      works.findIndex(
-        item => item.id === editingId
-      );
+    date: date,
 
-    if (index !== -1) {
+    start: start,
 
-      works[index] = {
+    end: end,
 
-        ...works[index],
+    breakMinutes: breakMinutes,
 
-        date,
-        start,
-        end,
-        breakMinutes,
-        rate,
-        hours,
-        income,
-        type,
-        note
+    rate: rate,
 
-      };
+    hours: hours,
 
-    }
+    income: income,
 
-  }
+    type: type,
 
-  /* 新增紀錄 */
+    note: note
 
-  else {
+  };
 
-    works.push({
 
-      id: Date.now(),
-
-      date,
-      start,
-      end,
-      breakMinutes,
-      rate,
-      hours,
-      income,
-      type,
-      note
-
-    });
-
-  }
+  works.push(work);
 
 
   localStorage.setItem(
@@ -527,44 +424,6 @@ function saveWork() {
 
 }
 
-
-/* 刪除 */
-
-function deleteWork(id) {
-
-  const work =
-    works.find(item => item.id === id);
-
-  if (!work) return;
-
-
-  const confirmDelete =
-    confirm(
-      確定要刪除 ${work.date} 的工作紀錄嗎？
-    );
-
-
-  if (!confirmDelete) return;
-
-
-  works =
-    works.filter(
-      item => item.id !== id
-    );
-
-
-  localStorage.setItem(
-    "salaryWorks",
-    JSON.stringify(works)
-  );
-
-
-  render();
-
-}
-
-
-/* 顯示首頁 */
 
 function render() {
 
@@ -595,11 +454,13 @@ function render() {
     now.getDate() + mondayOffset
   );
 
-  monday.setHours(0,0,0,0);
+  monday.setHours(0, 0, 0, 0);
 
 
   let todayIncome = 0;
+
   let weekIncome = 0;
+
   let monthIncome = 0;
 
 
@@ -622,7 +483,9 @@ function render() {
     }
 
 
-    if (work.date.startsWith(month)) {
+    if (
+      work.date.startsWith(month)
+    ) {
 
       monthIncome += work.income;
 
@@ -662,14 +525,14 @@ function render() {
 
   const sorted =
     [...works].sort(
-      (a,b) =>
+      (a, b) =>
         new Date(b.date) -
         new Date(a.date)
     );
 
 
   list.innerHTML =
-    sorted.slice(0,10).map(work => `
+    sorted.slice(0, 10).map(work => `
 
       <div class="work-item">
 
@@ -679,12 +542,11 @@ function render() {
 
           ${
             work.type === "white"
-            ? "🤍 白工"
-            : "💵 現金"
+              ? "🤍 白工"
+              : "💵 現金"
           }
 
         </div>
-
 
         <div class="work-detail">
 
@@ -694,19 +556,17 @@ function render() {
 
         </div>
 
-
         <div class="work-detail">
 
           時薪 $${work.rate.toFixed(2)}
 
           ${
             work.note
-            ? " · " + work.note
-            : ""
+              ? " · " + work.note
+              : ""
           }
 
         </div>
-
 
         <div class="work-money">
 
@@ -714,8 +574,16 @@ function render() {
 
         </div>
 
+      </div>
 
-        <div class="actions">
+    `).join("");
 
-          <button
-            cla
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
