@@ -6,38 +6,830 @@
 <title>Salary+</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
   background: #111;
   color: white;
-  font-family: Arial, sans-serif;
-  padding: 30px;
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+.app {
+  max-width: 430px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 20px 16px 100px;
+}
+
+h1 {
+  margin: 0 0 5px;
+  font-size: 32px;
+}
+
+.subtitle {
+  color: #888;
+  margin-bottom: 25px;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.card {
+  background: #1d1d1f;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.card-title {
+  color: #999;
+  font-size: 14px;
+}
+
+.money {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 6px;
 }
 
 button {
-  padding: 20px;
+  border: 0;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary {
+  width: 100%;
+  background: white;
+  color: black;
+  font-weight: bold;
+}
+
+.secondary {
+  background: #333;
+  color: white;
+}
+
+.danger {
+  background: #652525;
+  color: white;
+}
+
+.work {
+  background: #202020;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.work-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.work-money {
   font-size: 20px;
-  border-radius: 15px;
-  border: none;
-  margin-top: 20px;
+  font-weight: bold;
+}
+
+.small {
+  color: #999;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.tag {
+  display: inline-block;
+  background: #333;
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 430px;
+  background: #1c1c1e;
+  border-radius: 25px 25px 0 0;
+  padding: 22px;
+}
+
+label {
+  display: block;
+  color: #aaa;
+  margin: 12px 0 5px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  background: #2c2c2e;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 70px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.buttons button {
+  flex: 1;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 75px;
+  background: #1c1c1e;
+  border-top: 1px solid #333;
+  display: flex;
+  z-index: 100;
+}
+
+.nav {
+  flex: 1;
+  background: transparent;
+  color: #777;
+  border-radius: 0;
+  font-size: 12px;
+}
+
+.nav.active {
+  color: white;
+}
+
+.nav span {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 3px;
 }
 </style>
 </head>
 
 <body>
 
+<div class="app">
+
 <h1>Salary+</h1>
+<div class="subtitle">我的澳洲工作收入</div>
 
-<p id="status">等待測試...</p>
 
-<button onclick="testButton()">
-  🧪 測試按鈕
-</button>
+<!-- 首頁 -->
+<div id="home" class="section active">
+
+  <div class="card">
+    <div class="card-title">今日收入</div>
+    <div class="money" id="today">$0.00</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">本週收入</div>
+    <div class="money" id="week">$0.00</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">本月收入</div>
+    <div class="money" id="month">$0.00</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">總工作時數</div>
+    <div class="money" id="hours">0 小時</div>
+  </div>
+
+  <div class="card">
+    <button class="primary" onclick="openWork()">
+      📅 新增工作
+    </button>
+  </div>
+
+</div>
+
+
+<!-- 工作 -->
+<div id="work" class="section">
+
+  <div class="card">
+
+    <h2>工作紀錄</h2>
+
+    <button class="primary" onclick="openWork()">
+      ＋ 新增工作
+    </button>
+
+  </div>
+
+  <div id="workList"></div>
+
+</div>
+
+
+<!-- 統計 -->
+<div id="stats" class="section">
+
+  <div class="card">
+
+    <h2>統計</h2>
+
+    <div class="card-title">總收入</div>
+    <div class="money" id="totalMoney">$0.00</div>
+
+    <br>
+
+    <div class="card-title">總工作時數</div>
+    <div class="money" id="totalHours">0 小時</div>
+
+    <br>
+
+    <div class="card-title">平均時薪</div>
+    <div class="money" id="averageRate">$0.00</div>
+
+  </div>
+
+</div>
+
+
+<!-- 底部 -->
+<div class="bottom">
+
+  <button class="nav active" onclick="go('home', this)">
+    <span>🏠</span>
+    首頁
+  </button>
+
+  <button class="nav" onclick="go('work', this)">
+    <span>💼</span>
+    工作
+  </button>
+
+  <button class="nav" onclick="go('stats', this)">
+    <span>📊</span>
+    統計
+  </button>
+
+</div>
+
+</div>
+
+
+<!-- 新增工作視窗 -->
+<div id="modal" class="modal">
+
+  <div class="modal-box">
+
+    <h2>新增工作</h2>
+
+    <label>日期</label>
+    <input id="date" type="date">
+
+    <label>開始時間</label>
+    <input id="start" type="time" value="08:00">
+
+    <label>結束時間</label>
+    <input id="end" type="time" value="16:30">
+
+    <label>休息時間（分鐘）</label>
+    <input id="breakTime" type="number" value="30">
+
+    <label>時薪</label>
+    <input id="rate" type="number" value="30">
+
+    <label>工作類型</label>
+    <select id="type">
+      <option value="white">🤍 白工</option>
+      <option value="cash">💵 現金工作</option>
+    </select>
+
+    <label>備註</label>
+    <textarea id="note" placeholder="例如：草莓工廠"></textarea>
+
+    <div class="buttons">
+
+      <button class="secondary" onclick="closeWork()">
+        取消
+      </button>
+
+      <button class="primary" onclick="saveWork()">
+        儲存
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 <script>
-function testButton() {
-  document.getElementById("status").innerText =
-    "✅ JavaScript 正常運作！";
+
+/* ===== 資料 ===== */
+
+let works = [];
+
+try {
+  works = JSON.parse(
+    localStorage.getItem("salaryWorks") || "[]"
+  );
+} catch {
+  works = [];
 }
+
+
+/* ===== 日期 ===== */
+
+function todayString() {
+
+  const d = new Date();
+
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+
+  return y + "-" + m + "-" + day;
+}
+
+
+/* ===== 導航 ===== */
+
+function go(section, button) {
+
+  document.querySelectorAll(".section").forEach(function(item) {
+    item.classList.remove("active");
+  });
+
+  document.getElementById(section).classList.add("active");
+
+  document.querySelectorAll(".nav").forEach(function(item) {
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  render();
+}
+
+
+/* ===== 開啟新增工作 ===== */
+
+function openWork() {
+
+  document.getElementById("modal").classList.add("show");
+
+  document.getElementById("date").value =
+    todayString();
+
+}
+
+
+/* ===== 關閉新增工作 ===== */
+
+function closeWork() {
+
+  document.getElementById("modal").classList.remove("show");
+
+}
+
+
+/* ===== 儲存工作 ===== */
+
+function saveWork() {
+
+  const date =
+    document.getElementById("date").value;
+
+  const start =
+    document.getElementById("start").value;
+
+  const end =
+    document.getElementById("end").value;
+
+  const breakTime =
+    Number(document.getElementById("breakTime").value || 0);
+
+  const rate =
+    Number(document.getElementById("rate").value || 0);
+
+  const type =
+    document.getElementById("type").value;
+
+  const note =
+    document.getElementById("note").value;
+
+
+  if (!date || !start || !end || rate <= 0) {
+
+    alert("請填寫日期、時間和時薪");
+
+    return;
+  }
+
+
+  const s = start.split(":");
+  const e = end.split(":");
+
+
+  let startMinutes =
+    Number(s[0]) * 60 + Number(s[1]);
+
+  let endMinutes =
+    Number(e[0]) * 60 + Number(e[1]);
+
+
+  if (endMinutes <= startMinutes) {
+    endMinutes += 1440;
+  }
+
+
+  const minutes =
+    endMinutes -
+    startMinutes -
+    breakTime;
+
+
+  if (minutes <= 0) {
+
+    alert("工作時間不正確");
+
+    return;
+  }
+
+
+  const hours =
+    minutes / 60;
+
+  const money =
+    hours * rate;
+
+
+  const work = {
+
+    id: Date.now(),
+
+    date: date,
+
+    start: start,
+
+    end: end,
+
+    breakTime: breakTime,
+
+    rate: rate,
+
+    type: type,
+
+    note: note,
+
+    hours: hours,
+
+    money: money
+
+  };
+
+
+  works.push(work);
+
+
+  localStorage.setItem(
+    "salaryWorks",
+    JSON.stringify(works)
+  );
+
+
+  closeWork();
+
+  render();
+
+
+  alert(
+    "✅ 工作已儲存\n\n" +
+    "工作時間：" +
+    hours.toFixed(2) +
+    " 小時\n" +
+    "收入：$" +
+    money.toFixed(2)
+  );
+
+}
+
+
+/* ===== 刪除 ===== */
+
+function deleteWork(id) {
+
+  if (!confirm("確定要刪除這筆工作嗎？")) {
+    return;
+  }
+
+
+  works = works.filter(function(work) {
+
+    return work.id !== id;
+
+  });
+
+
+  localStorage.setItem(
+    "salaryWorks",
+    JSON.stringify(works)
+  );
+
+
+  render();
+
+}
+
+
+/* ===== 計算 ===== */
+
+function sum(filter) {
+
+  return works
+    .filter(filter)
+    .reduce(function(total, work) {
+
+      return total + Number(work.money);
+
+    }, 0);
+
+}
+
+
+/* ===== 首頁 ===== */
+
+function renderHome() {
+
+  const today =
+    todayString();
+
+
+  const todayMoney =
+    sum(function(work) {
+
+      return work.date === today;
+
+    });
+
+
+  const now =
+    new Date();
+
+
+  const day =
+    now.getDay();
+
+
+  const monday =
+    new Date(now);
+
+
+  monday.setDate(
+    now.getDate() - (day === 0 ? 6 : day - 1)
+  );
+
+
+  const mondayString =
+    monday.getFullYear() +
+    "-" +
+    String(monday.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(monday.getDate()).padStart(2, "0");
+
+
+  const weekMoney =
+    sum(function(work) {
+
+      return work.date >= mondayString &&
+             work.date <= today;
+
+    });
+
+
+  const monthString =
+    now.getFullYear() +
+    "-" +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    "-01";
+
+
+  const monthMoney =
+    sum(function(work) {
+
+      return work.date >= monthString &&
+             work.date <= today;
+
+    });
+
+
+  const totalHours =
+    works.reduce(function(total, work) {
+
+      return total + Number(work.hours);
+
+    }, 0);
+
+
+  document.getElementById("today").innerText =
+    "$" + todayMoney.toFixed(2);
+
+
+  document.getElementById("week").innerText =
+    "$" + weekMoney.toFixed(2);
+
+
+  document.getElementById("month").innerText =
+    "$" + monthMoney.toFixed(2);
+
+
+  document.getElementById("hours").innerText =
+    totalHours.toFixed(2) + " 小時";
+
+}
+
+
+/* ===== 工作列表 ===== */
+
+function renderWorks() {
+
+  const list =
+    document.getElementById("workList");
+
+
+  if (works.length === 0) {
+
+    list.innerHTML =
+      '<div class="card">目前還沒有工作紀錄</div>';
+
+    return;
+  }
+
+
+  const sorted =
+    [...works].sort(function(a, b) {
+
+      return b.date.localeCompare(a.date);
+
+    });
+
+
+  list.innerHTML =
+    sorted.map(function(work) {
+
+      const type =
+        work.type === "white"
+          ? "🤍 白工"
+          : "💵 現金工作";
+
+
+      return `
+        <div class="work">
+
+          <div class="work-top">
+
+            <div>
+
+              <strong>
+                ${work.date}
+              </strong>
+
+              <div class="small">
+                ${work.start} - ${work.end}
+              </div>
+
+              <div class="tag">
+                ${type}
+              </div>
+
+            </div>
+
+            <div class="work-money">
+              $${Number(work.money).toFixed(2)}
+            </div>
+
+          </div>
+
+          <div class="small">
+            ${Number(work.hours).toFixed(2)}
+            小時 ×
+            $${Number(work.rate).toFixed(2)}
+          </div>
+
+          ${
+            work.note
+              ? `<div class="small">${work.note}</div>`
+              : ""
+          }
+
+          <button
+            class="danger"
+            onclick="deleteWork(${work.id})">
+            🗑 刪除
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+/* ===== 統計 ===== */
+
+function renderStats() {
+
+  const money =
+    works.reduce(function(total, work) {
+
+      return total + Number(work.money);
+
+    }, 0);
+
+
+  const hours =
+    works.reduce(function(total, work) {
+
+      return total + Number(work.hours);
+
+    }, 0);
+
+
+  const average =
+    hours > 0
+      ? money / hours
+      : 0;
+
+
+  document.getElementById("totalMoney").innerText =
+    "$" + money.toFixed(2);
+
+
+  document.getElementById("totalHours").innerText =
+    hours.toFixed(2) + " 小時";
+
+
+  document.getElementById("averageRate").innerText =
+    "$" + average.toFixed(2);
+
+}
+
+
+/* ===== 全部更新 ===== */
+
+function render() {
+
+  renderHome();
+
+  renderWorks();
+
+  renderStats();
+
+}
+
+
+/* ===== 啟動 ===== */
+
+render();
+
 </script>
 
 </body>
