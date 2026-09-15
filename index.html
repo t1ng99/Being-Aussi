@@ -1,354 +1,586 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111111">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<title>Salary+</title>
 
-  <title>Salary+</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f5f5f7;
+  color:#111;
+  padding-bottom:90px;
+}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f5f7;
-      color: #111;
-      padding-bottom: 90px;
-    }
+.header{
+  background:#111;
+  color:white;
+  padding:45px 20px 28px;
+  border-radius:0 0 28px 28px;
+}
 
-    .header {
-      background: #111;
-      color: white;
-      padding: 45px 20px 28px;
-      border-radius: 0 0 28px 28px;
-    }
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
+.logo{font-size:27px;font-weight:800}
+.subtitle{font-size:13px;opacity:.6;margin-top:4px}
+.settings{font-size:22px}
 
-    .logo {
-      font-size: 26px;
-      font-weight: 800;
-    }
+.main-pay{margin-top:28px}
+.label{font-size:14px;opacity:.65;margin-bottom:7px}
+.amount{font-size:42px;font-weight:800}
+.tax-note{font-size:13px;opacity:.6;margin-top:7px}
 
-    .subtitle {
-      font-size: 13px;
-      opacity: 0.6;
-      margin-top: 4px;
-    }
+.container{padding:20px}
 
-    .settings {
-      font-size: 22px;
-    }
+.section-title{
+  font-size:19px;
+  font-weight:750;
+  margin:8px 0 14px;
+}
 
-    .main-pay {
-      margin-top: 10px;
-    }
+.cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 
-    .label {
-      font-size: 14px;
-      opacity: 0.65;
-      margin-bottom: 7px;
-    }
+.card{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
 
-    .amount {
-      font-size: 42px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
+.card-label{font-size:13px;color:#777;margin-bottom:8px}
+.card-value{font-size:24px;font-weight:750}
+.card-small{font-size:12px;color:#999;margin-top:6px}
 
-    .tax-note {
-      margin-top: 8px;
-      font-size: 13px;
-      opacity: 0.6;
-    }
+.quick{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
 
-    .container {
-      padding: 20px;
-    }
+.quick-button{
+  border:0;
+  background:white;
+  border-radius:18px;
+  padding:17px 8px;
+  font-size:13px;
+  font-weight:600;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
 
-    .section-title {
-      font-size: 19px;
-      font-weight: 750;
-      margin: 8px 0 14px;
-    }
+.quick-icon{
+  display:block;
+  font-size:24px;
+  margin-bottom:7px;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.progress-card{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-    }
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
 
-    .card-label {
-      font-size: 13px;
-      color: #777;
-      margin-bottom: 8px;
-    }
+.progress{
+  height:10px;
+  background:#eee;
+  border-radius:20px;
+  overflow:hidden;
+}
 
-    .card-value {
-      font-size: 24px;
-      font-weight: 750;
-    }
+.progress-bar{
+  height:100%;
+  width:35%;
+  background:#111;
+}
 
-    .card-small {
-      font-size: 12px;
-      color: #999;
-      margin-top: 6px;
-    }
+.goal-info{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  font-size:13px;
+  color:#777;
+}
 
-    .quick {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:76px;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(15px);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid #eee;
+  z-index:10;
+}
 
-    .quick-button {
-      border: none;
-      background: white;
-      border-radius: 18px;
-      padding: 17px 8px;
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-    }
+.nav-item{
+  border:0;
+  background:transparent;
+  font-size:11px;
+  color:#888;
+  padding-top:10px;
+}
 
-    .quick-icon {
-      font-size: 24px;
-      display: block;
-      margin-bottom: 7px;
-    }
+.nav-icon{
+  display:block;
+  font-size:22px;
+  margin-bottom:3px;
+}
 
-    .progress-card {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-    }
+.nav-item.active{
+  color:#111;
+  font-weight:700;
+}
 
-    .progress-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
+/* 新增工作視窗 */
 
-    .progress {
-      height: 10px;
-      background: #eee;
-      border-radius: 20px;
-      overflow: hidden;
-    }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:20;
+  align-items:flex-end;
+}
 
-    .progress-bar {
-      height: 100%;
-      width: 35%;
-      background: #111;
-      border-radius: 20px;
-    }
+.modal.show{display:flex}
 
-    .goal-info {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-      font-size: 13px;
-      color: #777;
-    }
+.modal-box{
+  width:100%;
+  max-height:92vh;
+  overflow:auto;
+  background:#f5f5f7;
+  border-radius:28px 28px 0 0;
+  padding:22px 20px 35px;
+}
 
-    .nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 76px;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(15px);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid #eee;
-      z-index: 10;
-    }
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
 
-    .nav-item {
-      border: none;
-      background: transparent;
-      font-size: 11px;
-      color: #888;
-      padding-top: 10px;
-    }
+.modal-title{
+  font-size:23px;
+  font-weight:800;
+}
 
-    .nav-icon {
-      display: block;
-      font-size: 22px;
-      margin-bottom: 3px;
-    }
+.close{
+  border:0;
+  background:#ddd;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  font-size:18px;
+}
 
-    .nav-item.active {
-      color: #111;
-      font-weight: 700;
-    }
+.form-group{margin-bottom:15px}
 
-    @media (min-width: 700px) {
-      .container,
-      .header {
-        max-width: 700px;
-        margin: auto;
-      }
+.form-group label{
+  display:block;
+  font-size:13px;
+  color:#666;
+  margin-bottom:7px;
+}
 
-      .header {
-        border-radius: 0 0 28px 28px;
-      }
-    }
-  </style>
+input,select{
+  width:100%;
+  height:48px;
+  border:0;
+  border-radius:14px;
+  padding:0 14px;
+  font-size:16px;
+  background:white;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.type-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.type-button{
+  height:48px;
+  border:2px solid #ddd;
+  background:white;
+  border-radius:14px;
+  font-weight:700;
+}
+
+.type-button.selected{
+  border-color:#111;
+  background:#111;
+  color:white;
+}
+
+.calculate{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin:18px 0;
+}
+
+.result-row{
+  display:flex;
+  justify-content:space-between;
+  margin:7px 0;
+}
+
+.result-total{
+  font-size:22px;
+  font-weight:800;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #eee;
+}
+
+.save-button{
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:17px;
+  background:#111;
+  color:white;
+  font-size:16px;
+  font-weight:750;
+}
+
+.work-list{
+  margin-top:15px;
+}
+
+.work-item{
+  background:white;
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:10px;
+}
+
+.work-top{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+}
+
+.work-detail{
+  color:#777;
+  font-size:13px;
+  margin-top:6px;
+}
+
+.work-money{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:750;
+}
+</style>
 </head>
 
 <body>
 
-  <header class="header">
-    <div class="header-top">
-      <div>
-        <div class="logo">Salary+</div>
-        <div class="subtitle">Australia Finance Manager</div>
-      </div>
-
-      <div class="settings">⚙️</div>
+<header class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">Salary+</div>
+      <div class="subtitle">Australia Finance Manager</div>
     </div>
+    <div class="settings">⚙️</div>
+  </div>
 
-    <div class="main-pay">
-      <div class="label">本月預估收入</div>
-      <div class="amount">$3,850</div>
-      <div class="tax-note">稅前收入 · FY 2026–27</div>
-    </div>
-  </header>
+  <div class="main-pay">
+    <div class="label">本月收入</div>
+    <div class="amount" id="monthIncome">$0</div>
+    <div class="tax-note">稅前收入 · FY 2026–27</div>
+  </div>
+</header>
 
-  <main class="container">
+<main class="container">
 
-    <div class="section-title">收入概覽</div>
+<div class="section-title">收入概覽</div>
 
-    <div class="cards">
+<div class="cards">
 
-      <div class="card">
-        <div class="card-label">今日收入</div>
-        <div class="card-value">$240</div>
-        <div class="card-small">8 小時</div>
-      </div>
+<div class="card">
+  <div class="card-label">今日收入</div>
+  <div class="card-value" id="todayIncome">$0</div>
+  <div class="card-small">稅前</div>
+</div>
 
-      <div class="card">
-        <div class="card-label">本週收入</div>
-        <div class="card-value">$1,080</div>
-        <div class="card-small">稅前</div>
-      </div>
+<div class="card">
+  <div class="card-label">本週收入</div>
+  <div class="card-value" id="weekIncome">$0</div>
+  <div class="card-small">稅前</div>
+</div>
 
-      <div class="card">
-        <div class="card-label">本月收入</div>
-        <div class="card-value">$3,850</div>
-        <div class="card-small">稅前</div>
-      </div>
+<div class="card">
+  <div class="card-label">本月收入</div>
+  <div class="card-value" id="monthIncome2">$0</div>
+  <div class="card-small">稅前</div>
+</div>
 
-      <div class="card">
-        <div class="card-label">本月稅後</div>
-        <div class="card-value">$3,272</div>
-        <div class="card-small">預估</div>
-      </div>
+<div class="card">
+  <div class="card-label">工作天數</div>
+  <div class="card-value" id="workDays">0</div>
+  <div class="card-small">本月</div>
+</div>
 
-    </div>
+</div>
 
-    <div class="section-title" style="margin-top:28px;">
-      快速新增
-    </div>
+<div class="section-title" style="margin-top:28px">
+快速新增
+</div>
 
-    <div class="quick">
+<div class="quick">
 
-      <button class="quick-button">
-        <span class="quick-icon">📅</span>
-        新增工作
-      </button>
+<button class="quick-button" onclick="openModal()">
+<span class="quick-icon">📅</span>
+新增工作
+</button>
 
-      <button class="quick-button">
-        <span class="quick-icon">💰</span>
-        新增收入
-      </button>
+<button class="quick-button">
+<span class="quick-icon">💰</span>
+新增收入
+</button>
 
-      <button class="quick-button">
-        <span class="quick-icon">🧾</span>
-        新增支出
-      </button>
+<button class="quick-button">
+<span class="quick-icon">🧾</span>
+新增支出
+</button>
 
-    </div>
+</div>
 
-    <div class="section-title" style="margin-top:28px;">
-      存錢目標
-    </div>
+<div class="section-title" style="margin-top:28px">
+最近工作
+</div>
 
-    <div class="progress-card">
+<div id="workList" class="work-list">
+<div class="card-small">目前還沒有工作紀錄</div>
+</div>
 
-      <div class="progress-top">
-        <strong>🚗 我的目標</strong>
-        <strong>35%</strong>
-      </div>
+<div class="section-title" style="margin-top:28px">
+存錢目標
+</div>
 
-      <div class="progress">
-        <div class="progress-bar"></div>
-      </div>
+<div class="progress-card">
+<div class="progress-top">
+<strong>🎯 我的目標</strong>
+<strong>0%</strong>
+</div>
 
-      <div class="goal-info">
-        <span>$7,000 / $20,000</span>
-        <span>預估完成：2027</span>
-      </div>
+<div class="progress">
+<div class="progress-bar" style="width:0%"></div>
+</div>
 
-    </div>
+<div class="goal-info">
+<span>$0 / $20,000</span>
+<span>尚未設定</span>
+</div>
+</div>
 
-    <div class="section-title" style="margin-top:28px;">
-      財政年度
-    </div>
+</main>
 
-    <div class="card">
-      <div class="card-label">2026/07/01 – 2027/06/30</div>
-      <div class="card-value">$12,480</div>
-      <div class="card-small">
-        FY 累積收入 · 稅前
-      </div>
-    </div>
+<nav class="nav">
 
-  </main>
+<button class="nav-item active">
+<span class="nav-icon">🏠</span>
+首頁
+</button>
 
-  <nav class="nav">
+<button class="nav-item">
+<span class="nav-icon">📅</span>
+排班
+</button>
 
-    <button class="nav-item active">
-      <span class="nav-icon">🏠</span>
-      首頁
-    </button>
+<button class="nav-item">
+<span class="nav-icon">🧾</span>
+記帳
+</button>
 
-    <button class="nav-item">
-      <span class="nav-icon">📅</span>
-      排班
-    </button>
+<button class="nav-item">
+<span class="nav-icon">📊</span>
+統計
+</button>
 
-    <button class="nav-item">
-      <span class="nav-icon">🧾</span>
-      記帳
-    </button>
+</nav>
 
-    <button class="nav-item">
-      <span class="nav-icon">📊</span>
-      統計
-    </button>
+<!-- 新增工作視窗 -->
 
-  </nav>
+<div class="modal" id="workModal">
 
-</body>
-</html>
+<div class="modal-box">
+
+<div class="modal-header">
+<div class="modal-title">新增工作</div>
+<button class="close" onclick="closeModal()">×</button>
+</div>
+
+<div class="form-group">
+<label>日期</label>
+<input type="date" id="workDate">
+</div>
+
+<div class="row">
+
+<div class="form-group">
+<label>開始時間</label>
+<input type="time" id="startTime">
+</div>
+
+<div class="form-group">
+<label>結束時間</label>
+<input type="time" id="endTime">
+</div>
+
+</div>
+
+<div class="form-group">
+<label>休息時間（分鐘）</label>
+<input type="number" id="breakTime" value="30" min="0">
+</div>
+
+<div class="form-group">
+<label>工作類型</label>
+
+<div class="type-buttons">
+
+<button class="type-button selected" id="whiteButton" onclick="selectType('white')">
+白工
+</button>
+
+<button class="type-button" id="cashButton" onclick="selectType('cash')">
+Cash
+</button>
+
+</div>
+</div>
+
+<div class="row">
+
+<div class="form-group">
+<label>時薪 AUD</label>
+<input type="number" id="hourlyRate" value="30" min="0" step="0.01">
+</div>
+
+<div class="form-group">
+<label>加班倍率</label>
+<select id="overtime">
+<option value="1">1.0 ×</option>
+<option value="1.5">1.5 ×</option>
+<option value="2">2.0 ×</option>
+</select>
+</div>
+
+</div>
+
+<div class="form-group">
+<label>備註</label>
+<input type="text" id="note" placeholder="例如：花廠、包裝">
+</div>
+
+<div class="calculate">
+
+<div class="result-row">
+<span>工作時間</span>
+<strong id="hoursResult">0 小時</strong>
+</div>
+
+<div class="result-row">
+<span>稅前收入</span>
+<strong id="grossResult">$0</strong>
+</div>
+
+<div class="result-row">
+<span>預估稅</span>
+<strong id="taxResult">$0</strong>
+</div>
+
+<div class="result-row result-total">
+<span>稅後收入</span>
+<strong id="netResult">$0</strong>
+</div>
+
+</div>
+
+<button class="save-button" onclick="saveWork()">
+儲存工作紀錄
+</button>
+
+</div>
+</div>
+
+<script>
+
+let workType="white";
+
+function openModal(){
+  document.getElementById("workModal").classList.add("show");
+
+  const today=new Date().toISOString().split("T")[0];
+  document.getElementById("workDate").value=today;
+
+  calculate();
+}
+
+function closeModal(){
+  document.getElementById("workModal").classList.remove("show");
+}
+
+function selectType(type){
+
+  workType=type;
+
+  document.getElementById("whiteButton").classList.toggle("selected",type==="white");
+  document.getElementById("cashButton").classList.toggle("selected",type==="cash");
+
+  calculate();
+}
+
+function calculate(){
+
+  const start=document.getElementById("startTime").value;
+  const end=document.getElementById("endTime").value;
+
+  const breakMin=parseFloat(document.getElementById("breakTime").value)||0;
+  const rate=parseFloat(document.getElementById("hourlyRate").value)||0;
+  const multiplier=parseFloat(document.getElementById("overtime").value)||1;
+
+  if(!start || !end){
+    document.getElementById("hoursResult").innerText="0 小時";
+    document.getElementById("grossResult").innerText="$0";
+    document.getElementById("taxResult").innerText="$0";
+    document.getElementById("netResult").innerText="$0";
+    return;
+  }
+
+  let startDate=new Date("2000-01-01T"+start);
+  let endDate=new Date("2000-01-01T"+end);
+
+  if(endDate<=startDate){
+    endDate.set
