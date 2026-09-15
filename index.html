@@ -1014,7 +1014,7 @@ function saveWork() {
     const index =
       works.findIndex(function(item) {
 
-        return item.id === editingId;
+        return String(item.id) === String(editingId);
 
       });
 
