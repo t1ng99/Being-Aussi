@@ -1,1556 +1,770 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
 <title>Salary+</title>
 
 <style>
 
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-
-  margin: 0;
-
-  background: #111;
-
-  color: white;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Arial,
-    sans-serif;
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
+  Roboto,"Noto Sans TC",Arial,sans-serif;
+  background:#f3f4f6;
+  color:#111827;
 }
 
-.app {
-
-  max-width: 430px;
-
-  min-height: 100vh;
-
-  margin: auto;
-
-  padding: 20px 16px 100px;
+body.dark{
+  background:#111827;
+  color:#f9fafb;
 }
 
-h1 {
-
-  margin: 0 0 5px;
-
-  font-size: 32px;
+button,
+input,
+select,
+textarea{
+  font:inherit;
 }
 
-.subtitle {
-
-  color: #888;
-
-  margin-bottom: 25px;
+button{
+  cursor:pointer;
 }
 
-.section {
-
-  display: none;
+.app{
+  max-width:600px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:90px;
 }
 
-.section.active {
-
-  display: block;
+.header{
+  padding:24px 18px 10px;
 }
 
-.card {
-
-  background: #1d1d1f;
-
-  border-radius: 20px;
-
-  padding: 18px;
-
-  margin-bottom: 14px;
+.header h1{
+  margin:0;
+  font-size:28px;
 }
 
-.card-title {
-
-  color: #999;
-
-  font-size: 14px;
+.header p{
+  margin:5px 0 0;
+  color:#6b7280;
 }
 
-.money {
-
-  font-size: 30px;
-
-  font-weight: bold;
-
-  margin-top: 6px;
+.dark .header p{
+  color:#9ca3af;
 }
 
-button {
-
-  border: 0;
-
-  border-radius: 14px;
-
-  padding: 13px 16px;
-
-  font-size: 16px;
-
-  cursor: pointer;
+.section{
+  padding:10px 16px;
 }
 
-.primary {
-
-  width: 100%;
-
-  background: white;
-
-  color: black;
-
-  font-weight: bold;
+.card{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
 }
 
-.secondary {
-
-  background: #333;
-
-  color: white;
+.dark .card{
+  background:#1f2937;
+  box-shadow:none;
 }
 
-.danger {
-
-  background: #652525;
-
-  color: white;
+.card-title{
+  font-size:15px;
+  color:#6b7280;
+  margin-bottom:8px;
 }
 
-.work {
-
-  background: #202020;
-
-  border-radius: 16px;
-
-  padding: 15px;
-
-  margin-bottom: 10px;
+.dark .card-title{
+  color:#9ca3af;
 }
 
-.work-top {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 10px;
+.big-number{
+  font-size:30px;
+  font-weight:800;
 }
 
-.work-money {
-
-  font-size: 20px;
-
-  font-weight: bold;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.small {
-
-  color: #999;
-
-  font-size: 14px;
-
-  margin-top: 5px;
+.stat{
+  background:white;
+  border-radius:18px;
+  padding:16px;
 }
 
-.tag {
-
-  display: inline-block;
-
-  background: #333;
-
-  padding: 5px 8px;
-
-  border-radius: 8px;
-
-  font-size: 12px;
-
-  margin-top: 8px;
+.dark .stat{
+  background:#1f2937;
 }
 
-.modal {
-
-  display: none;
-
-  position: fixed;
-
-  inset: 0;
-
-  background: rgba(0,0,0,.8);
-
-  align-items: flex-end;
-
-  justify-content: center;
-
-  z-index: 999;
+.stat .label{
+  font-size:13px;
+  color:#6b7280;
 }
 
-.modal.show {
-
-  display: flex;
+.dark .stat .label{
+  color:#9ca3af;
 }
 
-.modal-box {
-
-  width: 100%;
-
-  max-width: 430px;
-
-  background: #1c1c1e;
-
-  border-radius: 25px 25px 0 0;
-
-  padding: 22px;
-
-  max-height: 90vh;
-
-  overflow-y: auto;
+.stat .value{
+  font-size:22px;
+  font-weight:800;
+  margin-top:5px;
 }
 
-label {
+.primary{
+  width:100%;
+  border:0;
+  border-radius:15px;
+  padding:14px;
+  background:#111827;
+  color:white;
+  font-weight:700;
+  margin-top:8px;
+}
 
-  display: block;
+.primary:active{
+  transform:scale(.98);
+}
 
-  color: #aaa;
+.secondary{
+  border:0;
+  border-radius:12px;
+  padding:10px 13px;
+  background:#e5e7eb;
+  color:#111827;
+  font-weight:600;
+}
 
-  margin: 12px 0 5px;
+.dark .secondary{
+  background:#374151;
+  color:white;
+}
+
+.danger{
+  border:0;
+  border-radius:12px;
+  padding:10px 13px;
+  background:#fee2e2;
+  color:#b91c1c;
+  font-weight:600;
+}
+
+.add-button{
+  position:fixed;
+  right:20px;
+  bottom:85px;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  border:0;
+  background:#111827;
+  color:white;
+  font-size:28px;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+  z-index:20;
+}
+
+.dark .add-button{
+  background:white;
+  color:#111827;
+}
+
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:100%;
+  max-width:600px;
+  background:rgba(255,255,255,.96);
+  border-top:1px solid #e5e7eb;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:8px 5px calc(8px + env(safe-area-inset-bottom));
+  z-index:30;
+}
+
+.dark .bottom-nav{
+  background:rgba(17,24,39,.97);
+  border-color:#374151;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:#6b7280;
+  padding:7px 3px;
+  font-size:12px;
+}
+
+.nav-btn.active{
+  color:#111827;
+  font-weight:800;
+}
+
+.dark .nav-btn.active{
+  color:white;
+}
+
+.nav-icon{
+  display:block;
+  font-size:21px;
+  margin-bottom:2px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.work-item,
+.expense-item{
+  border-bottom:1px solid #e5e7eb;
+  padding:14px 0;
+}
+
+.dark .work-item,
+.dark .expense-item{
+  border-color:#374151;
+}
+
+.work-item:last-child,
+.expense-item:last-child{
+  border-bottom:0;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.work-date{
+  font-weight:800;
+}
+
+.work-sub{
+  color:#6b7280;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.dark .work-sub{
+  color:#9ca3af;
+}
+
+.amount{
+  font-weight:800;
+}
+
+.white-work{
+  color:#2563eb;
+}
+
+.cash-work{
+  color:#16a34a;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  color:#6b7280;
+  margin-bottom:6px;
 }
 
 input,
 select,
-textarea {
-
-  width: 100%;
-
-  padding: 12px;
-
-  background: #2c2c2e;
-
-  color: white;
-
-  border: 1px solid #444;
-
-  border-radius: 12px;
-
-  font-size: 16px;
+textarea{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  padding:12px;
+  background:white;
+  color:#111827;
+  outline:none;
 }
 
-textarea {
-
-  min-height: 70px;
+.dark input,
+.dark select,
+.dark textarea{
+  background:#111827;
+  color:white;
+  border-color:#4b5563;
 }
 
-.buttons {
-
-  display: flex;
-
-  gap: 10px;
-
-  margin-top: 18px;
+textarea{
+  min-height:80px;
+  resize:vertical;
 }
 
-.buttons button {
-
-  flex: 1;
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:100;
 }
 
-.bottom {
-
-  position: fixed;
-
-  bottom: 0;
-
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  width: 100%;
-
-  max-width: 430px;
-
-  height: 75px;
-
-  background: #1c1c1e;
-
-  border-top: 1px solid #333;
-
-  display: flex;
-
-  z-index: 100;
+.modal.show{
+  display:flex;
 }
 
-.nav {
-
-  flex: 1;
-
-  background: transparent;
-
-  color: #777;
-
-  border-radius: 0;
-
-  font-size: 12px;
+.modal-box{
+  width:100%;
+  max-width:600px;
+  max-height:92vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:24px 24px 0 0;
+  padding:20px;
+  padding-bottom:30px;
 }
 
-.nav.active {
-
-  color: white;
+.dark .modal-box{
+  background:#1f2937;
 }
 
-.nav span {
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
 
-  display: block;
+.modal-header h2{
+  margin:0;
+}
 
-  font-size: 22px;
+.close{
+  border:0;
+  background:#e5e7eb;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  font-size:20px;
+}
 
-  margin-bottom: 3px;
+.dark .close{
+  background:#374151;
+  color:white;
+}
+
+.progress{
+  height:12px;
+  border-radius:20px;
+  background:#e5e7eb;
+  overflow:hidden;
+}
+
+.dark .progress{
+  background:#374151;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#111827;
+  border-radius:20px;
+}
+
+.dark .progress-bar{
+  background:white;
+}
+
+.empty{
+  text-align:center;
+  color:#6b7280;
+  padding:25px 10px;
+}
+
+.money-positive{
+  color:#16a34a;
+}
+
+.money-negative{
+  color:#dc2626;
+}
+
+.small{
+  font-size:12px;
+  color:#6b7280;
+}
+
+.setting-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:13px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.dark .setting-row{
+  border-color:#374151;
+}
+
+.setting-row:last-child{
+  border-bottom:0;
+}
+
+.switch{
+  width:48px;
+  height:28px;
+  border-radius:20px;
+  border:0;
+  background:#d1d5db;
+  position:relative;
+}
+
+.switch.on{
+  background:#111827;
+}
+
+.switch span{
+  position:absolute;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:white;
+  top:3px;
+  left:3px;
+  transition:.2s;
+}
+
+.switch.on span{
+  left:23px;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 <div class="app">
 
+  <!-- HOME -->
 
-<h1>Salary+</h1>
+  <div id="homePage" class="page active">
 
-<div class="subtitle">
-我的澳洲工作收入
-</div>
+    <div class="header">
 
+      <h1>Salary+</h1>
 
-<!-- ==================== 首頁 ==================== -->
-
-<div id="home" class="section active">
-
-
-  <div class="card">
-
-    <div class="card-title">
-      今日收入
-    </div>
-
-    <div class="money" id="today">
-      $0.00
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="card-title">
-      本週收入
-    </div>
-
-    <div class="money" id="week">
-      $0.00
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="card-title">
-      本月收入
-    </div>
-
-    <div class="money" id="month">
-      $0.00
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="card-title">
-      總工作時數
-    </div>
-
-    <div class="money" id="hours">
-      0 小時
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <button
-      class="primary"
-      onclick="openWork()">
-
-      📅 新增工作
-
-    </button>
-
-  </div>
-
-
-</div>
-
-
-<!-- ==================== 工作 ==================== -->
-
-<div id="work" class="section">
-
-
-  <div class="card">
-
-    <h2>
-      工作紀錄
-    </h2>
-
-    <button
-      class="primary"
-      onclick="openWork()">
-
-      ＋ 新增工作
-
-    </button>
-
-  </div>
-
-
-  <div id="workList"></div>
-
-
-</div>
-
-
-<!-- ==================== 統計 ==================== -->
-
-<div id="stats" class="section">
-
-
-  <div class="card">
-
-    <h2>
-      統計
-    </h2>
-
-
-    <div class="card-title">
-      總收入
-    </div>
-
-    <div
-      class="money"
-      id="totalMoney">
-
-      $0.00
+      <p>你的澳洲工作與收入管理</p>
 
     </div>
 
+    <div class="section">
 
-    <br>
+      <div class="card">
 
+        <div class="card-title">
+          本月淨收入估算
+        </div>
 
-    <div class="card-title">
-      總工作時數
-    </div>
+        <div
+          class="big-number"
+          id="homeMonthNet"
+        >
+          $0.00
+        </div>
 
-    <div
-      class="money"
-      id="totalHours">
+        <div
+          class="small"
+          id="homeMonthText"
+        >
+          收入 $0 · 支出 $0
+        </div>
 
-      0 小時
+      </div>
 
-    </div>
 
+      <div class="grid">
 
-    <br>
+        <div class="stat">
 
-
-    <div class="card-title">
-      平均時薪
-    </div>
-
-    <div
-      class="money"
-      id="averageRate">
-
-      $0.00
-
-    </div>
-
-
-  </div>
-
-
-</div>
-
-
-<!-- ==================== 底部導航 ==================== -->
-
-<div class="bottom">
-
-
-  <button
-    class="nav active"
-    onclick="go('home', this)">
-
-    <span>
-      🏠
-    </span>
-
-    首頁
-
-  </button>
-
-
-  <button
-    class="nav"
-    onclick="go('work', this)">
-
-    <span>
-      💼
-    </span>
-
-    工作
-
-  </button>
-
-
-  <button
-    class="nav"
-    onclick="go('stats', this)">
-
-    <span>
-      📊
-    </span>
-
-    統計
-
-  </button>
-
-
-</div>
-
-
-</div>
-
-
-<!-- ==================== 工作視窗 ==================== -->
-
-<div
-  id="modal"
-  class="modal">
-
-
-  <div class="modal-box">
-
-
-    <h2 id="modalTitle">
-      新增工作
-    </h2>
-
-
-    <label>
-      日期
-    </label>
-
-    <input
-      id="date"
-      type="date">
-
-
-    <label>
-      開始時間
-    </label>
-
-    <input
-      id="start"
-      type="time"
-      value="08:00">
-
-
-    <label>
-      結束時間
-    </label>
-
-    <input
-      id="end"
-      type="time"
-      value="16:30">
-
-
-    <label>
-      休息時間（分鐘）
-    </label>
-
-    <input
-      id="breakTime"
-      type="number"
-      value="30">
-
-
-    <label>
-      時薪
-    </label>
-
-    <input
-      id="rate"
-      type="number"
-      value="30">
-
-
-    <label>
-      工作類型
-    </label>
-
-    <select id="type">
-
-      <option value="white">
-        🤍 白工
-      </option>
-
-      <option value="cash">
-        💵 現金工作
-      </option>
-
-    </select>
-
-
-    <label>
-      備註
-    </label>
-
-    <textarea
-      id="note"
-      placeholder="例如：草莓工廠">
-    </textarea>
-
-
-    <div class="buttons">
-
-
-      <button
-        class="secondary"
-        onclick="closeWork()">
-
-        取消
-
-      </button>
-
-
-      <button
-        class="primary"
-        onclick="saveWork()">
-
-        儲存
-
-      </button>
-
-
-    </div>
-
-
-  </div>
-
-
-</div>
-
-
-<script>
-
-/* ==================================================
-   資料
-================================================== */
-
-let works = [];
-
-let editingId = null;
-
-
-try {
-
-  works = JSON.parse(
-    localStorage.getItem("salaryWorks") || "[]"
-  );
-
-} catch (error) {
-
-  works = [];
-
-}
-
-
-/* ==================================================
-   今天日期
-================================================== */
-
-function todayString() {
-
-  const d = new Date();
-
-  const y = d.getFullYear();
-
-  const m =
-    String(d.getMonth() + 1)
-      .padStart(2, "0");
-
-  const day =
-    String(d.getDate())
-      .padStart(2, "0");
-
-  return y + "-" + m + "-" + day;
-
-}
-
-
-/* ==================================================
-   導航
-================================================== */
-
-function go(section, button) {
-
-  document
-    .querySelectorAll(".section")
-    .forEach(function(item) {
-
-      item.classList.remove("active");
-
-    });
-
-
-  document
-    .getElementById(section)
-    .classList.add("active");
-
-
-  document
-    .querySelectorAll(".nav")
-    .forEach(function(item) {
-
-      item.classList.remove("active");
-
-    });
-
-
-  button.classList.add("active");
-
-
-  render();
-
-}
-
-
-/* ==================================================
-   新增工作
-================================================== */
-
-function openWork() {
-
-  editingId = null;
-
-
-  document
-    .getElementById("modal")
-    .classList.add("show");
-
-
-  document
-    .getElementById("modalTitle")
-    .innerText = "新增工作";
-
-
-  document
-    .getElementById("date")
-    .value = todayString();
-
-
-  document
-    .getElementById("start")
-    .value = "08:00";
-
-
-  document
-    .getElementById("end")
-    .value = "16:30";
-
-
-  document
-    .getElementById("breakTime")
-    .value = "30";
-
-
-  document
-    .getElementById("rate")
-    .value = "30";
-
-
-  document
-    .getElementById("type")
-    .value = "white";
-
-
-  document
-    .getElementById("note")
-    .value = "";
-
-}
-
-
-/* ==================================================
-   編輯工作
-================================================== */
-
-function editWork(id) {
-
-  const work =
-    works.find(function(item) {
-
-      return item.id === id;
-
-    });
-
-
-  if (!work) {
-
-    return;
-
-  }
-
-
-  editingId = id;
-
-
-  document
-    .getElementById("modal")
-    .classList.add("show");
-
-
-  document
-    .getElementById("modalTitle")
-    .innerText = "編輯工作";
-
-
-  document
-    .getElementById("date")
-    .value = work.date;
-
-
-  document
-    .getElementById("start")
-    .value = work.start;
-
-
-  document
-    .getElementById("end")
-    .value = work.end;
-
-
-  document
-    .getElementById("breakTime")
-    .value =
-      work.breakTime || 0;
-
-
-  document
-    .getElementById("rate")
-    .value = work.rate;
-
-
-  document
-    .getElementById("type")
-    .value = work.type;
-
-
-  document
-    .getElementById("note")
-    .value =
-      work.note || "";
-
-}
-
-
-/* ==================================================
-   關閉視窗
-================================================== */
-
-function closeWork() {
-
-  document
-    .getElementById("modal")
-    .classList.remove("show");
-
-}
-
-
-/* ==================================================
-   儲存工作
-================================================== */
-
-function saveWork() {
-
-
-  const date =
-    document.getElementById("date").value;
-
-
-  const start =
-    document.getElementById("start").value;
-
-
-  const end =
-    document.getElementById("end").value;
-
-
-  const breakTime =
-    Number(
-      document.getElementById("breakTime").value || 0
-    );
-
-
-  const rate =
-    Number(
-      document.getElementById("rate").value || 0
-    );
-
-
-  const type =
-    document.getElementById("type").value;
-
-
-  const note =
-    document.getElementById("note").value;
-
-
-  if (
-    !date ||
-    !start ||
-    !end ||
-    rate <= 0
-  ) {
-
-    alert(
-      "請填寫日期、時間和時薪"
-    );
-
-    return;
-
-  }
-
-
-  const s =
-    start.split(":");
-
-
-  const e =
-    end.split(":");
-
-
-  let startMinutes =
-    Number(s[0]) * 60 +
-    Number(s[1]);
-
-
-  let endMinutes =
-    Number(e[0]) * 60 +
-    Number(e[1]);
-
-
-  if (
-    endMinutes <= startMinutes
-  ) {
-
-    endMinutes += 1440;
-
-  }
-
-
-  const minutes =
-    endMinutes -
-    startMinutes -
-    breakTime;
-
-
-  if (minutes <= 0) {
-
-    alert(
-      "工作時間不正確"
-    );
-
-    return;
-
-  }
-
-
-  const hours =
-    minutes / 60;
-
-
-  const money =
-    hours * rate;
-
-
-  /* ============================
-     編輯現有工作
-  ============================ */
-
-  if (editingId !== null) {
-
-
-    const index =
-      works.findIndex(function(item) {
-
-        return String(item.id) === String(editingId);
-
-      });
-
-
-    if (index !== -1) {
-
-
-      works[index] = {
-
-        id: editingId,
-
-        date: date,
-
-        start: start,
-
-        end: end,
-
-        breakTime: breakTime,
-
-        rate: rate,
-
-        type: type,
-
-        note: note,
-
-        hours: hours,
-
-        money: money
-
-      };
-
-
-      localStorage.setItem(
-        "salaryWorks",
-        JSON.stringify(works)
-      );
-
-
-      editingId = null;
-
-
-      closeWork();
-
-
-      render();
-
-
-      alert(
-        "✅ 工作紀錄已更新\n\n" +
-        "工作時間：" +
-        hours.toFixed(2) +
-        " 小時\n" +
-        "收入：$" +
-        money.toFixed(2)
-      );
-
-
-      return;
-
-    }
-
-  }
-
-
-  /* ============================
-     新增工作
-  ============================ */
-
-  const work = {
-
-    id: Date.now(),
-
-    date: date,
-
-    start: start,
-
-    end: end,
-
-    breakTime: breakTime,
-
-    rate: rate,
-
-    type: type,
-
-    note: note,
-
-    hours: hours,
-
-    money: money
-
-  };
-
-
-  works.push(work);
-
-
-  localStorage.setItem(
-    "salaryWorks",
-    JSON.stringify(works)
-  );
-
-
-  closeWork();
-
-
-  render();
-
-
-  alert(
-    "✅ 工作已儲存\n\n" +
-    "工作時間：" +
-    hours.toFixed(2) +
-    " 小時\n" +
-    "收入：$" +
-    money.toFixed(2)
-  );
-
-}
-
-
-/* ==================================================
-   刪除工作
-================================================== */
-
-function deleteWork(id) {
-
-
-  if (
-    !confirm(
-      "確定要刪除這筆工作嗎？"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  works =
-    works.filter(function(work) {
-
-      return work.id !== id;
-
-    });
-
-
-  localStorage.setItem(
-    "salaryWorks",
-    JSON.stringify(works)
-  );
-
-
-  render();
-
-}
-
-
-/* ==================================================
-   收入加總
-================================================== */
-
-function sum(filter) {
-
-  return works
-
-    .filter(filter)
-
-    .reduce(function(total, work) {
-
-      return (
-        total +
-        Number(work.money || 0)
-      );
-
-    }, 0);
-
-}
-
-
-/* ==================================================
-   首頁
-================================================== */
-
-function renderHome() {
-
-
-  const today =
-    todayString();
-
-
-  const todayMoney =
-    sum(function(work) {
-
-      return work.date === today;
-
-    });
-
-
-  const now =
-    new Date();
-
-
-  const day =
-    now.getDay();
-
-
-  const monday =
-    new Date(now);
-
-
-  monday.setDate(
-    now.getDate() -
-    (day === 0 ? 6 : day - 1)
-  );
-
-
-  const mondayString =
-
-    monday.getFullYear() +
-
-    "-" +
-
-    String(
-      monday.getMonth() + 1
-    ).padStart(2, "0") +
-
-    "-" +
-
-    String(
-      monday.getDate()
-    ).padStart(2, "0");
-
-
-  const weekMoney =
-    sum(function(work) {
-
-      return (
-        work.date >= mondayString &&
-        work.date <= today
-      );
-
-    });
-
-
-  const monthString =
-
-    now.getFullYear() +
-
-    "-" +
-
-    String(
-      now.getMonth() + 1
-    ).padStart(2, "0") +
-
-    "-01";
-
-
-  const monthMoney =
-    sum(function(work) {
-
-      return (
-        work.date >= monthString &&
-        work.date <= today
-      );
-
-    });
-
-
-  const totalHours =
-    works.reduce(function(total, work) {
-
-      return (
-        total +
-        Number(work.hours || 0)
-      );
-
-    }, 0);
-
-
-  document
-    .getElementById("today")
-    .innerText =
-      "$" + todayMoney.toFixed(2);
-
-
-  document
-    .getElementById("week")
-    .innerText =
-      "$" + weekMoney.toFixed(2);
-
-
-  document
-    .getElementById("month")
-    .innerText =
-      "$" + monthMoney.toFixed(2);
-
-
-  document
-    .getElementById("hours")
-    .innerText =
-      totalHours.toFixed(2) +
-      " 小時";
-
-}
-
-
-/* ==================================================
-   工作列表
-================================================== */
-
-function renderWorks() {
-
-
-  const list =
-    document.getElementById(
-      "workList"
-    );
-
-
-  if (works.length === 0) {
-
-    list.innerHTML =
-      '<div class="card">' +
-      '目前還沒有工作紀錄' +
-      '</div>';
-
-    return;
-
-  }
-
-
-  const sorted =
-    [...works].sort(function(a, b) {
-
-      return b.date.localeCompare(
-        a.date
-      );
-
-    });
-
-
-  list.innerHTML =
-
-    sorted.map(function(work) {
-
-
-      const type =
-
-        work.type === "white"
-
-          ? "🤍 白工"
-
-          : "💵 現金工作";
-
-
-      return `
-
-        <div class="work">
-
-
-          <div class="work-top">
-
-
-            <div>
-
-
-              <strong>
-                ${work.date}
-              </strong>
-
-
-              <div class="small">
-                ${work.start}
-                -
-                ${work.end}
-              </div>
-
-
-              <div class="tag">
-                ${type}
-              </div>
-
-
-            </div>
-
-
-            <div class="work-money">
-              $${Number(work.money).toFixed(2)}
-            </div>
-
-
+          <div class="label">
+            今日收入
           </div>
-
-
-          <div class="small">
-
-            ${Number(work.hours).toFixed(2)}
-            小時 ×
-            $${Number(work.rate).toFixed(2)}
-
-          </div>
-
-
-          ${
-            work.note
-
-              ? `
-                <div class="small">
-                  ${work.note}
-                </div>
-              `
-
-              : ""
-          }
-
 
           <div
-            style="
-              display:flex;
-              gap:8px;
-              margin-top:10px;
-            ">
-
-
-            <button
-              class="secondary"
-              onclick="editWork(${work.id})">
-
-              ✏️ 編輯
-
-            </button>
-
-
-            <button
-              class="danger"
-              onclick="deleteWork(${work.id})">
-
-              🗑 刪除
-
-            </button>
-
-
+            class="value"
+            id="todayIncome"
+          >
+            $0
           </div>
-
 
         </div>
 
-      `;
+
+        <div class="stat">
+
+          <div class="label">
+            本週收入
+          </div>
+
+          <div
+            class="value"
+            id="weekIncome"
+          >
+            $0
+          </div>
+
+        </div>
 
 
-    }).join("");
+        <div class="stat">
 
-}
+          <div class="label">
+            本月收入
+          </div>
 
+          <div
+            class="value"
+            id="monthIncome"
+          >
+            $0
+          </div>
 
-/* ==================================================
-   統計
-================================================== */
-
-function renderStats() {
-
-
-  const money =
-    works.reduce(function(total, work) {
-
-      return (
-        total +
-        Number(work.money || 0)
-      );
-
-    }, 0);
+        </div>
 
 
-  const hours =
-    works.reduce(function(total, work) {
+        <div class="stat">
 
-      return (
-        total +
-        Number(work.hours || 0)
-      );
+          <div class="label">
+            本月支出
+          </div>
 
-    }, 0);
+          <div
+            class="value"
+            id="monthExpense"
+          >
+            $0
+          </div>
 
+        </div>
 
-  const average =
-
-    hours > 0
-
-      ? money / hours
-
-      : 0;
+      </div>
 
 
-  document
-    .getElementById("totalMoney")
-    .innerText =
-      "$" + money.toFixed(2);
+      <div class="card">
+
+        <div class="card-title">
+          💰 存錢目標
+        </div>
+
+        <div
+          class="row"
+          style="margin-bottom:10px;"
+        >
+
+          <strong id="goalName">
+            尚未設定目標
+          </strong>
+
+          <strong id="goalPercent">
+            0%
+          </strong>
+
+        </div>
+
+        <div class="progress">
+
+          <div
+            class="progress-bar"
+            id="goalBar"
+          ></div>
+
+        </div>
+
+        <div
+          class="small"
+          id="goalText"
+          style="margin-top:8px;"
+        >
+          設定你的存錢目標
+        </div>
+
+        <button
+          class="secondary"
+          style="width:100%;margin-top:12px;"
+          onclick="openGoal()"
+        >
+          設定存錢目標
+        </button>
+
+      </div>
 
 
-  document
-    .getElementById("totalHours")
-    .innerText =
-      hours.toFixed(2) +
-      " 小時";
+      <div class="card">
+
+        <div class="card-title">
+          ⚡ 快速操作
+        </div>
+
+        <button
+          class="primary"
+          onclick="openWork()"
+        >
+          ➕ 新增工作
+        </button>
+
+        <button
+          class="primary"
+          onclick="openExpense()"
+        >
+          🧾 新增支出
+        </button>
+
+      </div>
 
 
-  document
-    .getElementById("averageRate")
-    .innerText =
-      "$" + average.toFixed(2);
+      <div class="card">
 
-}
+        <div class="card-title">
+          🧮 簡易稅務估算
+        </div>
 
+        <div
+          id="taxSummary"
+        >
+          年收入 $0
+        </div>
 
-/* ==================================================
-   更新畫面
-================================================== */
+      </div>
 
-function render() {
+    </div>
 
-  renderHome();
-
-  renderWorks();
-
-  renderStats();
-
-}
+  </div>
 
 
-/* ==================================================
-   啟動
-================================================== */
+  <!-- WORK -->
 
-render();
+  <div id="workPage" class="page">
 
-</script>
+    <div class="header">
 
-</body>
-</html>
+      <h1>💼 工作</h1>
+
+      <p>管理你的工作與收入</p>
+
+    </div>
+
+    <div class="section">
+
+      <div class="grid">
+
+        <div class="stat">
+
+          <div class="label">
+            白工
+          </div>
+
+          <div
+            class="value"
+            id="whiteTotal"
+          >
+            $0
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="label">
+            現金工作
+          </div>
+
+          <div
+            class="value"
+            id="cashTotal"
+          >
+            $0
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="row">
+
+          <strong>
+            工作紀錄
+          </strong>
+
+          <button
+            class="secondary"
+            onclick="openWork()"
+          >
+            ＋ 新增
+          </button>
+
+        </div>
+
+        <div id="workList"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- BOOKKEEPING -->
+
+  <div id="bookPage" class="page">
+
+    <div class="header">
+
+      <h1>🧾 記帳</h1>
+
+      <p>收入與生活支出</p>
+
+    </div>
+
+    <div class="section">
+
+      <div class="grid">
+
+        <div class="stat">
+
+          <div class="label">
+            本月收入
+          </div>
+
+          <div
+            class="value money-positive"
+            id="bookIncome"
+          >
