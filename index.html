@@ -12,10 +12,10 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-               "Helvetica Neue", Arial, sans-serif;
   background: #111;
   color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+               "Helvetica Neue", Arial, sans-serif;
 }
 
 .app {
@@ -32,8 +32,7 @@ h1 {
 
 .subtitle {
   color: #999;
-  margin-top: 5px;
-  margin-bottom: 25px;
+  margin: 5px 0 25px;
 }
 
 .card {
@@ -82,7 +81,7 @@ h1 {
 }
 
 .add-button:active {
-  transform: scale(0.98);
+  transform: scale(.98);
 }
 
 .empty {
@@ -111,9 +110,33 @@ h1 {
 }
 
 .work-money {
-  color: #4cd964;
-  font-weight: 600;
   margin-top: 5px;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.edit-button,
+.delete-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background: #333;
+  color: white;
+}
+
+.delete-button {
+  background: #3a2020;
+  color: #ff6b6b;
 }
 
 /* Modal */
@@ -125,6 +148,7 @@ h1 {
   background: rgba(0,0,0,.75);
   align-items: flex-end;
   justify-content: center;
+  z-index: 100;
 }
 
 .modal.show {
@@ -152,7 +176,8 @@ label {
   margin: 12px 0 6px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   border: 0;
   border-radius: 12px;
@@ -190,7 +215,10 @@ input, select {
 <div class="app">
 
   <h1>Salary+</h1>
-  <div class="subtitle">你的澳洲工作收入管理</div>
+
+  <div class="subtitle">
+    你的澳洲工作收入管理
+  </div>
 
   <div class="card">
     <div class="card-title">本月收入</div>
@@ -218,22 +246,29 @@ input, select {
   </button>
 
   <div class="card">
-    <div class="card-title">最近工作</div>
-    <div id="workList">
-      <div class="empty">目前還沒有工作紀錄</div>
+
+    <div class="card-title">
+      最近工作
     </div>
+
+    <div id="workList">
+      <div class="empty">
+        目前還沒有工作紀錄
+      </div>
+    </div>
+
   </div>
 
 </div>
 
 
-<!-- 新增工作視窗 -->
+<!-- 新增 / 修改工作 -->
 
 <div class="modal" id="modal">
 
   <div class="modal-box">
 
-    <div class="modal-title">
+    <div class="modal-title" id="modalTitle">
       新增工作
     </div>
 
@@ -253,6 +288,7 @@ input, select {
     <input type="number" id="rate" value="30">
 
     <label>工作類型</label>
+
     <select id="type">
       <option value="white">🤍 白工</option>
       <option value="cash">💵 現金工作</option>
@@ -262,7 +298,7 @@ input, select {
     <input type="text" id="note" placeholder="例如：草莓農場">
 
     <button class="save-button" onclick="saveWork()">
-      儲存工作
+      儲存
     </button>
 
     <button class="cancel-button" onclick="closeModal()">
@@ -276,25 +312,91 @@ input, select {
 
 <script>
 
-let works = JSON.parse(localStorage.getItem("salaryWorks") || "[]");
+let works =
+  JSON.parse(localStorage.getItem("salaryWorks") || "[]");
 
+let editingId = null;
+
+
+/* 開啟新增 */
 
 function openModal() {
 
-  document.getElementById("modal").classList.add("show");
+  editingId = null;
+
+  document.getElementById("modalTitle").innerText =
+    "新增工作";
 
   document.getElementById("date").value =
     new Date().toISOString().split("T")[0];
 
+  document.getElementById("start").value = "";
+
+  document.getElementById("end").value = "";
+
+  document.getElementById("break").value = 30;
+
+  document.getElementById("rate").value = 30;
+
+  document.getElementById("type").value = "white";
+
+  document.getElementById("note").value = "";
+
+  document.getElementById("modal").classList.add("show");
 }
 
+
+/* 關閉 */
 
 function closeModal() {
 
-  document.getElementById("modal").classList.remove("show");
+  document.getElementById("modal")
+    .classList.remove("show");
 
 }
 
+
+/* 修改 */
+
+function editWork(id) {
+
+  const work =
+    works.find(item => item.id === id);
+
+  if (!work) return;
+
+  editingId = id;
+
+  document.getElementById("modalTitle").innerText =
+    "修改工作";
+
+  document.getElementById("date").value =
+    work.date;
+
+  document.getElementById("start").value =
+    work.start;
+
+  document.getElementById("end").value =
+    work.end;
+
+  document.getElementById("break").value =
+    work.breakMinutes;
+
+  document.getElementById("rate").value =
+    work.rate;
+
+  document.getElementById("type").value =
+    work.type;
+
+  document.getElementById("note").value =
+    work.note || "";
+
+  document.getElementById("modal")
+    .classList.add("show");
+}
+
+
+/* 儲存 */
 
 function saveWork() {
 
@@ -359,30 +461,58 @@ function saveWork() {
     hours * rate;
 
 
-  const work = {
+  /* 修改現有紀錄 */
 
-    id: Date.now(),
+  if (editingId !== null) {
 
-    date,
-    start,
-    end,
+    const index =
+      works.findIndex(
+        item => item.id === editingId
+      );
 
-    breakMinutes,
+    if (index !== -1) {
 
-    rate,
+      works[index] = {
 
-    hours,
+        ...works[index],
 
-    income,
+        date,
+        start,
+        end,
+        breakMinutes,
+        rate,
+        hours,
+        income,
+        type,
+        note
 
-    type,
+      };
 
-    note
+    }
 
-  };
+  }
 
+  /* 新增紀錄 */
 
-  works.push(work);
+  else {
+
+    works.push({
+
+      id: Date.now(),
+
+      date,
+      start,
+      end,
+      breakMinutes,
+      rate,
+      hours,
+      income,
+      type,
+      note
+
+    });
+
+  }
 
 
   localStorage.setItem(
@@ -398,13 +528,50 @@ function saveWork() {
 }
 
 
+/* 刪除 */
+
+function deleteWork(id) {
+
+  const work =
+    works.find(item => item.id === id);
+
+  if (!work) return;
+
+
+  const confirmDelete =
+    confirm(
+      確定要刪除 ${work.date} 的工作紀錄嗎？
+    );
+
+
+  if (!confirmDelete) return;
+
+
+  works =
+    works.filter(
+      item => item.id !== id
+    );
+
+
+  localStorage.setItem(
+    "salaryWorks",
+    JSON.stringify(works)
+  );
+
+
+  render();
+
+}
+
+
+/* 顯示首頁 */
+
 function render() {
 
   const now = new Date();
 
   const today =
     now.toISOString().split("T")[0];
-
 
   const month =
     today.substring(0, 7);
@@ -415,11 +582,14 @@ function render() {
 
 
   const mondayOffset =
-    dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    dayOfWeek === 0
+      ? -6
+      : 1 - dayOfWeek;
 
 
   const monday =
     new Date(now);
+
 
   monday.setDate(
     now.getDate() + mondayOffset
@@ -436,7 +606,9 @@ function render() {
   works.forEach(work => {
 
     if (work.date === today) {
+
       todayIncome += work.income;
+
     }
 
 
@@ -444,12 +616,16 @@ function render() {
       new Date(work.date + "T00:00:00")
       >= monday
     ) {
+
       weekIncome += work.income;
+
     }
 
 
     if (work.date.startsWith(month)) {
+
       monthIncome += work.income;
+
     }
 
   });
@@ -480,6 +656,7 @@ function render() {
       '<div class="empty">目前還沒有工作紀錄</div>';
 
     return;
+
   }
 
 
@@ -497,38 +674,48 @@ function render() {
       <div class="work-item">
 
         <div class="work-date">
+
           ${work.date}
-          ${work.type === "white"
+
+          ${
+            work.type === "white"
             ? "🤍 白工"
-            : "💵 現金"}
+            : "💵 現金"
+          }
+
         </div>
 
+
         <div class="work-detail">
+
           ${work.start} - ${work.end}
+
           · ${work.hours.toFixed(2)} 小時
+
         </div>
 
+
         <div class="work-detail">
+
           時薪 $${work.rate.toFixed(2)}
-          ${work.note
+
+          ${
+            work.note
             ? " · " + work.note
-            : ""}
+            : ""
+          }
+
         </div>
+
 
         <div class="work-money">
+
           +$${work.income.toFixed(2)}
+
         </div>
 
-      </div>
 
-    `).join("");
+        <div class="actions">
 
-}
-
-
-render();
-
-</script>
-
-</body>
-</html>
+          <button
+            cla
