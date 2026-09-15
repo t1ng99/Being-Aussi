@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,268 +12,91 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Arial, sans-serif;
-  background: #f3f4f6;
-  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f2f2f7;
+  color: #111;
 }
 
-body.dark {
-  background: #111827;
-  color: #f9fafb;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.app {
+.container {
   max-width: 600px;
-  margin: 0 auto;
-  min-height: 100vh;
-  padding-bottom: 90px;
+  margin: auto;
+  padding: 20px 16px 100px;
 }
 
-.header {
-  padding: 24px 18px 10px;
+h1 {
+  margin-bottom: 5px;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-}
-
-.header p {
-  margin: 6px 0 0;
-  color: #6b7280;
-}
-
-.dark .header p {
-  color: #9ca3af;
-}
-
-.section {
-  padding: 10px 16px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
+.subtitle {
+  color: #777;
+  margin-bottom: 20px;
 }
 
 .card {
   background: white;
   border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-}
-
-.dark .card {
-  background: #1f2937;
-  box-shadow: none;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.stat {
-  background: white;
-  border-radius: 18px;
-  padding: 16px;
-}
-
-.dark .stat {
-  background: #1f2937;
-}
-
-.label {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.dark .label {
-  color: #9ca3af;
-}
-
-.value {
-  font-size: 22px;
-  font-weight: 800;
-  margin-top: 5px;
-}
-
-.big-number {
-  font-size: 30px;
-  font-weight: 800;
-}
-
-.card-title {
-  color: #6b7280;
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.dark .card-title {
-  color: #9ca3af;
-}
-
-.primary {
-  width: 100%;
-  border: 0;
-  border-radius: 14px;
-  padding: 14px;
-  margin-top: 8px;
-  background: #111827;
-  color: white;
-  font-weight: 700;
-}
-
-.secondary {
-  border: 0;
-  border-radius: 12px;
-  padding: 10px 13px;
-  background: #e5e7eb;
-  color: #111827;
-  font-weight: 600;
-}
-
-.dark .secondary {
-  background: #374151;
-  color: white;
-}
-
-.danger {
-  border: 0;
-  border-radius: 12px;
-  padding: 10px 13px;
-  background: #fee2e2;
-  color: #b91c1c;
-  font-weight: 600;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.work-item,
-.expense-item {
-  padding: 14px 0;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.dark .work-item,
-.dark .expense-item {
-  border-color: #374151;
-}
-
-.work-item:last-child,
-.expense-item:last-child {
-  border-bottom: 0;
-}
-
-.work-date {
-  font-weight: 800;
-}
-
-.work-sub {
-  margin-top: 5px;
-  color: #6b7280;
-  font-size: 13px;
-}
-
-.dark .work-sub {
-  color: #9ca3af;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
 }
 
 .amount {
-  font-weight: 800;
-  white-space: nowrap;
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 8px;
 }
 
-.white-work {
-  color: #2563eb;
-}
-
-.cash-work {
-  color: #16a34a;
-}
-
-.positive {
-  color: #16a34a;
-}
-
-.negative {
-  color: #dc2626;
-}
-
-.empty {
-  text-align: center;
-  padding: 25px 10px;
-  color: #6b7280;
-}
-
-.small {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.form-group {
-  margin-bottom: 14px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 6px;
-}
-
-input,
-select,
-textarea {
+button {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  background: white;
-  color: #111827;
-  outline: none;
-}
-
-.dark input,
-.dark select,
-.dark textarea {
-  background: #111827;
+  border: 0;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  background: #007aff;
   color: white;
-  border-color: #4b5563;
 }
 
-textarea {
-  min-height: 80px;
-  resize: vertical;
+button:active {
+  transform: scale(0.98);
+}
+
+.secondary {
+  background: #e5e5ea;
+  color: #111;
+}
+
+input, select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+label {
+  font-size: 14px;
+  color: #666;
+}
+
+.work-item {
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.work-item:first-child {
+  border-top: 0;
 }
 
 .modal {
+  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none;
+  background: rgba(0,0,0,0.45);
   align-items: flex-end;
   justify-content: center;
   z-index: 100;
@@ -284,389 +107,483 @@ textarea {
 }
 
 .modal-box {
+  background: white;
   width: 100%;
   max-width: 600px;
-  max-height: 92vh;
+  border-radius: 25px 25px 0 0;
+  padding: 25px;
+  max-height: 90vh;
   overflow-y: auto;
-  background: white;
-  border-radius: 24px 24px 0 0;
-  padding: 20px;
-  padding-bottom: 30px;
 }
 
-.dark .modal-box {
-  background: #1f2937;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.modal-header h2 {
-  margin: 0;
-}
-
-.close {
-  border: 0;
-  background: #e5e7eb;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  font-size: 20px;
-}
-
-.dark .close {
-  background: #374151;
-  color: white;
-}
-
-.progress {
-  height: 12px;
-  border-radius: 20px;
-  background: #e5e7eb;
-  overflow: hidden;
-}
-
-.dark .progress {
-  background: #374151;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #111827;
-  border-radius: 20px;
-}
-
-.dark .progress-bar {
-  background: white;
-}
-
-.add-button {
+.nav {
   position: fixed;
-  right: 20px;
-  bottom: 85px;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  border: 0;
-  background: #111827;
-  color: white;
-  font-size: 28px;
-  z-index: 20;
-}
-
-.dark .add-button {
-  background: white;
-  color: #111827;
-}
-
-.bottom-nav {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
   bottom: 0;
-  width: 100%;
-  max-width: 600px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background: rgba(255,255,255,0.97);
-  border-top: 1px solid #e5e7eb;
-  padding: 8px 5px;
-  z-index: 30;
-}
-
-.dark .bottom-nav {
-  background: rgba(17,24,39,0.97);
-  border-color: #374151;
-}
-
-.nav-btn {
-  border: 0;
-  background: transparent;
-  color: #6b7280;
-  padding: 7px 3px;
-  font-size: 12px;
-}
-
-.nav-btn.active {
-  color: #111827;
-  font-weight: 800;
-}
-
-.dark .nav-btn.active {
-  color: white;
-}
-
-.nav-icon {
-  display: block;
-  font-size: 21px;
-  margin-bottom: 2px;
-}
-
-.setting-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 13px 0;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.dark .setting-row {
-  border-color: #374151;
-}
-
-.switch {
-  width: 48px;
-  height: 28px;
-  border: 0;
-  border-radius: 20px;
-  background: #d1d5db;
-  position: relative;
-}
-
-.switch span {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  left: 0;
+  right: 0;
+  height: 75px;
   background: white;
-  top: 3px;
-  left: 3px;
-  transition: 0.2s;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 50;
 }
 
-.switch.on {
-  background: #111827;
+.nav button {
+  background: none;
+  color: #555;
+  margin: 0;
+  padding: 8px;
+  font-size: 14px;
 }
 
-.switch.on span {
-  left: 23px;
+.nav button.active {
+  color: #007aff;
+}
+
+.danger {
+  background: #ff3b30;
+}
+
+.secondary-small {
+  background: #e5e5ea;
+  color: #111;
+  padding: 10px;
+  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-  <!-- 首頁 -->
-  <section id="homePage" class="page active">
+  <h1>💰 Salary+</h1>
+  <div class="subtitle">我的澳洲工作收入管理</div>
 
-    <div class="header">
-      <h1>Salary+</h1>
-      <p>你的澳洲工作與收入管理</p>
+  <div id="homePage">
+
+    <div class="card">
+      <div>今日收入</div>
+      <div class="amount" id="todayIncome">$0.00</div>
     </div>
 
-    <div class="section">
-
-      <div class="card">
-        <div class="card-title">本月淨收入</div>
-
-        <div id="homeNet" class="big-number">
-          $0.00
-        </div>
-
-        <div id="homeNetText" class="small">
-          收入 $0.00 · 支出 $0.00
-        </div>
-      </div>
-
-      <div class="grid">
-
-        <div class="stat">
-          <div class="label">今日收入</div>
-          <div id="todayIncome" class="value">$0</div>
-        </div>
-
-        <div class="stat">
-          <div class="label">本週收入</div>
-          <div id="weekIncome" class="value">$0</div>
-        </div>
-
-        <div class="stat">
-          <div class="label">本月收入</div>
-          <div id="monthIncome" class="value">$0</div>
-        </div>
-
-        <div class="stat">
-          <div class="label">本月支出</div>
-          <div id="monthExpense" class="value">$0</div>
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <div class="card-title">
-          💰 存錢目標
-        </div>
-
-        <div class="row">
-          <strong id="goalName">
-            尚未設定
-          </strong>
-
-          <strong id="goalPercent">
-            0%
-          </strong>
-        </div>
-
-        <div class="progress" style="margin-top:10px;">
-          <div id="goalBar" class="progress-bar"></div>
-        </div>
-
-        <div id="goalText" class="small" style="margin-top:8px;">
-          設定你的存錢目標
-        </div>
-
-        <button id="openGoalBtn" class="secondary" style="width:100%;margin-top:12px;">
-          設定存錢目標
-        </button>
-
-      </div>
-
-      <div class="card">
-
-        <div class="card-title">
-          ⚡ 快速操作
-        </div>
-
-        <button id="homeAddWorkBtn" class="primary">
-          ➕ 新增工作
-        </button>
-
-        <button id="homeAddExpenseBtn" class="primary">
-          🧾 新增支出
-        </button>
-
-      </div>
-
-      <div class="card">
-
-        <div class="card-title">
-          🧮 簡易稅務估算
-        </div>
-
-        <div id="homeTax">
-          年收入 $0.00
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- 工作 -->
-  <section id="workPage" class="page">
-
-    <div class="header">
-      <h1>💼 工作</h1>
-      <p>管理工作與收入</p>
+    <div class="card">
+      <div>本週收入</div>
+      <div class="amount" id="weekIncome">$0.00</div>
     </div>
 
-    <div class="section">
-
-      <div class="grid">
-
-        <div class="stat">
-          <div class="label">🤍 白工</div>
-          <div id="whiteTotal" class="value">$0</div>
-        </div>
-
-        <div class="stat">
-          <div class="label">💵 現金工作</div>
-          <div id="cashTotal" class="value">$0</div>
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <div class="row">
-          <strong>工作紀錄</strong>
-
-          <button id="workAddBtn" class="secondary">
-            ＋ 新增
-          </button>
-        </div>
-
-        <div id="workList"></div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- 記帳 -->
-  <section id="bookPage" class="page">
-
-    <div class="header">
-      <h1>🧾 記帳</h1>
-      <p>管理生活支出</p>
+    <div class="card">
+      <div>本月收入</div>
+      <div class="amount" id="monthIncome">$0.00</div>
     </div>
 
-    <div class="section">
-
-      <div class="grid">
-
-        <div class="stat">
-          <div class="label">本月收入</div>
-          <div id="bookIncome" class="value positive">$0</div>
-        </div>
-
-        <div class="stat">
-          <div class="label">本月支出</div>
-          <div id="bookExpense" class="value negative">$0</div>
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <div class="row">
-          <strong>支出紀錄</strong>
-
-          <button id="expenseAddBtn" class="secondary">
-            ＋ 新增
-          </button>
-        </div>
-
-        <div id="expenseList"></div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- 統計 -->
-  <section id="statsPage" class="page">
-
-    <div class="header">
-      <h1>📊 統計</h1>
-      <p>工作與財務分析</p>
+    <div class="card">
+      <h3>快速操作</h3>
+      <button onclick="openWorkModal()">➕ 新增工作</button>
     </div>
 
-    <div class="section">
+  </div>
 
-      <div class="card">
+  <div id="workPage" style="display:none">
 
-        <div class="card-title">
-          📅 本週
-        </div>
+    <div class="card">
+      <h2>💼 工作紀錄</h2>
+      <button onclick="openWorkModal()">➕ 新增工作</button>
+    </div>
 
-        <div class="grid">
+    <div class="card">
+      <div id="workList"></div>
+    </div>
 
-          <div>
-            <div class="small">工作天數</div>
-            <strong id="weekDays">0</strong>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="homeBtn" class="active" onclick="showPage('home')">
+    🏠<br>首頁
+  </button>
+
+  <button id="workBtn" onclick="showPage('work')">
+    💼<br>工作
+  </button>
+</div>
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <h2 id="modalTitle">新增工作</h2>
+
+    <label>日期</label>
+    <input type="date" id="workDate">
+
+    <label>開始時間</label>
+    <input type="time" id="startTime">
+
+    <label>結束時間</label>
+    <input type="time" id="endTime">
+
+    <label>休息時間（分鐘）</label>
+    <input type="number" id="breakMinutes" value="30">
+
+    <label>時薪</label>
+    <input type="number" id="hourlyRate" value="30">
+
+    <label>工作類型</label>
+    <select id="workType">
+      <option value="white">🤍 白工</option>
+      <option value="cash">💵 現金工作</option>
+    </select>
+
+    <label>備註</label>
+    <input type="text" id="note" placeholder="例如：花廠">
+
+    <button onclick="saveWork()">💾 儲存</button>
+
+    <button class="secondary" onclick="closeModal()">取消</button>
+
+  </div>
+
+</div>
+
+<script>
+
+let works = [];
+let editingId = null;
+
+function loadData() {
+
+  const saved = localStorage.getItem("salaryWorks");
+
+  if (saved) {
+    works = JSON.parse(saved);
+  }
+
+}
+
+function saveData() {
+
+  localStorage.setItem(
+    "salaryWorks",
+    JSON.stringify(works)
+  );
+
+}
+
+function showPage(page) {
+
+  if (page === "home") {
+
+    document.getElementById("homePage").style.display = "block";
+    document.getElementById("workPage").style.display = "none";
+
+    document.getElementById("homeBtn").classList.add("active");
+    document.getElementById("workBtn").classList.remove("active");
+
+  } else {
+
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("workPage").style.display = "block";
+
+    document.getElementById("homeBtn").classList.remove("active");
+    document.getElementById("workBtn").classList.add("active");
+
+    render();
+
+  }
+
+}
+
+function openWorkModal() {
+
+  editingId = null;
+
+  document.getElementById("modalTitle").textContent = "新增工作";
+
+  document.getElementById("workDate").value =
+    new Date().toISOString().split("T")[0];
+
+  document.getElementById("startTime").value = "08:00";
+
+  document.getElementById("endTime").value = "16:30";
+
+  document.getElementById("breakMinutes").value = 30;
+
+  document.getElementById("hourlyRate").value = 30;
+
+  document.getElementById("workType").value = "white";
+
+  document.getElementById("note").value = "";
+
+  document.getElementById("modal").classList.add("show");
+
+}
+
+function closeModal() {
+
+  document.getElementById("modal").classList.remove("show");
+
+}
+
+function saveWork() {
+
+  const date =
+    document.getElementById("workDate").value;
+
+  const start =
+    document.getElementById("startTime").value;
+
+  const end =
+    document.getElementById("endTime").value;
+
+  const breakMinutes =
+    Number(document.getElementById("breakMinutes").value) || 0;
+
+  const hourlyRate =
+    Number(document.getElementById("hourlyRate").value) || 0;
+
+  const workType =
+    document.getElementById("workType").value;
+
+  const note =
+    document.getElementById("note").value;
+
+  if (!date || !start || !end) {
+
+    alert("請填寫日期、開始和結束時間");
+
+    return;
+
+  }
+
+  const startParts = start.split(":");
+  const endParts = end.split(":");
+
+  let startMinutes =
+    Number(startParts[0]) * 60 +
+    Number(startParts[1]);
+
+  let endMinutes =
+    Number(endParts[0]) * 60 +
+    Number(endParts[1]);
+
+  if (endMinutes <= startMinutes) {
+    endMinutes += 24 * 60;
+  }
+
+  const totalMinutes =
+    endMinutes -
+    startMinutes -
+    breakMinutes;
+
+  const hours =
+    Math.max(totalMinutes, 0) / 60;
+
+  const income =
+    hours * hourlyRate;
+
+  if (editingId !== null) {
+
+    const index =
+      works.findIndex(function(item) {
+        return item.id === editingId;
+      });
+
+    if (index !== -1) {
+
+      works[index] = {
+        id: editingId,
+        date: date,
+        start: start,
+        end: end,
+        breakMinutes: breakMinutes,
+        hourlyRate: hourlyRate,
+        workType: workType,
+        note: note,
+        hours: hours,
+        income: income
+      };
+
+    }
+
+  } else {
+
+    works.push({
+
+      id: Date.now(),
+
+      date: date,
+      start: start,
+      end: end,
+      breakMinutes: breakMinutes,
+      hourlyRate: hourlyRate,
+      workType: workType,
+      note: note,
+      hours: hours,
+      income: income
+
+    });
+
+  }
+
+  saveData();
+
+  closeModal();
+
+  render();
+
+}
+
+function editWork(id) {
+
+  const work =
+    works.find(function(item) {
+      return item.id === id;
+    });
+
+  if (!work) {
+    return;
+  }
+
+  editingId = id;
+
+  document.getElementById("modalTitle").textContent =
+    "編輯工作";
+
+  document.getElementById("workDate").value =
+    work.date;
+
+  document.getElementById("startTime").value =
+    work.start;
+
+  document.getElementById("endTime").value =
+    work.end;
+
+  document.getElementById("breakMinutes").value =
+    work.breakMinutes;
+
+  document.getElementById("hourlyRate").value =
+    work.hourlyRate;
+
+  document.getElementById("workType").value =
+    work.workType;
+
+  document.getElementById("note").value =
+    work.note || "";
+
+  document.getElementById("modal").classList.add("show");
+
+}
+
+function deleteWork(id) {
+
+  if (!confirm("確定要刪除這筆工作紀錄嗎？")) {
+    return;
+  }
+
+  works =
+    works.filter(function(item) {
+      return item.id !== id;
+    });
+
+  saveData();
+
+  render();
+
+}
+
+function render() {
+
+  const list =
+    document.getElementById("workList");
+
+  if (works.length === 0) {
+
+    list.innerHTML =
+      "<p>目前沒有工作紀錄</p>";
+
+  } else {
+
+    const sorted =
+      [...works].sort(function(a, b) {
+        return b.date.localeCompare(a.date);
+      });
+
+    list.innerHTML =
+      sorted.map(function(work) {
+
+        return `
+          <div class="work-item">
+
+            <strong>${work.date}</strong>
+
+            <div>
+              ${work.start} - ${work.end}
+            </div>
+
+            <div>
+              ${work.hours.toFixed(2)} 小時 ×
+              $${work.hourlyRate.toFixed(2)}
+            </div>
+
+            <div>
+              ${work.workType === "cash"
+                ? "💵 現金工作"
+                : "🤍 白工"}
+            </div>
+
+            <div>
+              <strong>
+                收入：$${work.income.toFixed(2)}
+              </strong>
+            </div>
+
+            ${work.note
+              ? <div>備註：${work.note}</div>
+              : ""}
+
+            <button
+              class="secondary-small"
+              onclick="editWork(${work.id})">
+              ✏️ 編輯
+            </button>
+
+            <button
+              class="danger"
+              onclick="deleteWork(${work.id})">
+              🗑 刪除
+            </button>
+
           </div>
+        `;
 
-          <div>
-            <div class="small">工作時數<
+      }).join("");
+
+  }
+
+  updateDashboard();
+
+}
+
+function updateDashboard() {
+
+  const today =
+    new Date().toISOString().split("T")[0];
+
+  const now =
+    new Date();
+
+  const day =
+    now.getDay();
+
+  const mondayOffset =
+    day === 0 ? -6 : 1 - day;
+
+  const monday =
+    new Date(now);
+
+  monday.setDate(
+    now.getDate() + mondayOffset
