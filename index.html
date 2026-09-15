@@ -1,84 +1,534 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salary+</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary+</title>
 
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f5f7;
-      margin: 0;
-      padding: 30px 20px;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    .header {
-      background: #111;
-      color: white;
-      padding: 30px 20px;
-      border-radius: 25px;
-    }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+               "Helvetica Neue", Arial, sans-serif;
+  background: #111;
+  color: white;
+}
 
-    h1 {
-      margin: 0;
-    }
+.app {
+  max-width: 500px;
+  margin: auto;
+  min-height: 100vh;
+  padding: 25px 18px 40px;
+}
 
-    .card {
-      background: white;
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 20px;
-    }
+h1 {
+  margin: 0;
+  font-size: 32px;
+}
 
-    button {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 15px;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      margin-top: 10px;
-    }
+.subtitle {
+  color: #999;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
 
-    #message {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-  </style>
+.card {
+  background: #1d1d1f;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.card-title {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.money {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.summary .card {
+  margin-bottom: 0;
+}
+
+.summary .money {
+  font-size: 22px;
+}
+
+.add-button {
+  width: 100%;
+  border: 0;
+  border-radius: 18px;
+  padding: 17px;
+  font-size: 18px;
+  font-weight: 600;
+  background: white;
+  color: black;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.add-button:active {
+  transform: scale(0.98);
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  padding: 20px 0;
+}
+
+.work-item {
+  border-top: 1px solid #333;
+  padding: 15px 0;
+}
+
+.work-item:first-child {
+  border-top: 0;
+}
+
+.work-date {
+  font-weight: 600;
+}
+
+.work-detail {
+  color: #999;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.work-money {
+  color: #4cd964;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+/* Modal */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 500px;
+  background: #1c1c1e;
+  border-radius: 25px 25px 0 0;
+  padding: 25px 20px 35px;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  color: #aaa;
+  font-size: 13px;
+  margin: 12px 0 6px;
+}
+
+input, select {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: #2c2c2e;
+  color: white;
+  padding: 13px;
+  font-size: 16px;
+}
+
+.save-button {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 20px;
+  font-size: 17px;
+  font-weight: 600;
+  background: white;
+  color: black;
+}
+
+.cancel-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #ff453a;
+  padding: 15px;
+  font-size: 16px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>Salary+</h1>
-    <p>Australia Finance Manager</p>
-  </div>
+<div class="app">
+
+  <h1>Salary+</h1>
+  <div class="subtitle">你的澳洲工作收入管理</div>
 
   <div class="card">
-    <h2>收入概覽</h2>
-    <p>今日收入：<strong>$0</strong></p>
-    <p>本週收入：<strong>$0</strong></p>
-    <p>本月收入：<strong>$0</strong></p>
+    <div class="card-title">本月收入</div>
+    <div class="money" id="monthIncome">$0.00</div>
   </div>
 
-  <div class="card">
-    <h2>快速新增</h2>
+  <div class="summary">
 
-    <button onclick="testButton()">
-      📅 新增工作
+    <div class="card">
+      <div class="card-title">今日</div>
+      <div class="money" id="todayIncome">$0.00</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">本週</div>
+      <div class="money" id="weekIncome">$0.00</div>
+    </div>
+
+  </div>
+
+  <br>
+
+  <button class="add-button" onclick="openModal()">
+    ➕ 新增工作
+  </button>
+
+  <div class="card">
+    <div class="card-title">最近工作</div>
+    <div id="workList">
+      <div class="empty">目前還沒有工作紀錄</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 新增工作視窗 -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      新增工作
+    </div>
+
+    <label>日期</label>
+    <input type="date" id="date">
+
+    <label>上班時間</label>
+    <input type="time" id="start">
+
+    <label>下班時間</label>
+    <input type="time" id="end">
+
+    <label>休息時間（分鐘）</label>
+    <input type="number" id="break" value="30">
+
+    <label>時薪 AUD</label>
+    <input type="number" id="rate" value="30">
+
+    <label>工作類型</label>
+    <select id="type">
+      <option value="white">🤍 白工</option>
+      <option value="cash">💵 現金工作</option>
+    </select>
+
+    <label>備註</label>
+    <input type="text" id="note" placeholder="例如：草莓農場">
+
+    <button class="save-button" onclick="saveWork()">
+      儲存工作
     </button>
 
-    <div id="message"></div>
+    <button class="cancel-button" onclick="closeModal()">
+      取消
+    </button>
+
   </div>
 
-  <script>
-    function testButton() {
-      document.getElementById("message").innerText =
-        "✅ 按鈕成功運作！";
+</div>
+
+
+<script>
+
+let works = JSON.parse(localStorage.getItem("salaryWorks") || "[]");
+
+
+function openModal() {
+
+  document.getElementById("modal").classList.add("show");
+
+  document.getElementById("date").value =
+    new Date().toISOString().split("T")[0];
+
+}
+
+
+function closeModal() {
+
+  document.getElementById("modal").classList.remove("show");
+
+}
+
+
+function saveWork() {
+
+  const date =
+    document.getElementById("date").value;
+
+  const start =
+    document.getElementById("start").value;
+
+  const end =
+    document.getElementById("end").value;
+
+  const breakMinutes =
+    Number(document.getElementById("break").value || 0);
+
+  const rate =
+    Number(document.getElementById("rate").value || 0);
+
+  const type =
+    document.getElementById("type").value;
+
+  const note =
+    document.getElementById("note").value;
+
+
+  if (!date || !start || !end || !rate) {
+
+    alert("請把日期、上下班時間和時薪填完整");
+
+    return;
+  }
+
+
+  const startTime =
+    new Date(`${date}T${start}`);
+
+  const endTime =
+    new Date(`${date}T${end}`);
+
+
+  let hours =
+    (endTime - startTime) / 3600000;
+
+
+  if (hours < 0) {
+    hours += 24;
+  }
+
+
+  hours -= breakMinutes / 60;
+
+
+  if (hours <= 0) {
+
+    alert("工作時間不正確");
+
+    return;
+  }
+
+
+  const income =
+    hours * rate;
+
+
+  const work = {
+
+    id: Date.now(),
+
+    date,
+    start,
+    end,
+
+    breakMinutes,
+
+    rate,
+
+    hours,
+
+    income,
+
+    type,
+
+    note
+
+  };
+
+
+  works.push(work);
+
+
+  localStorage.setItem(
+    "salaryWorks",
+    JSON.stringify(works)
+  );
+
+
+  closeModal();
+
+  render();
+
+}
+
+
+function render() {
+
+  const now = new Date();
+
+  const today =
+    now.toISOString().split("T")[0];
+
+
+  const month =
+    today.substring(0, 7);
+
+
+  const dayOfWeek =
+    now.getDay();
+
+
+  const mondayOffset =
+    dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+
+
+  const monday =
+    new Date(now);
+
+  monday.setDate(
+    now.getDate() + mondayOffset
+  );
+
+  monday.setHours(0,0,0,0);
+
+
+  let todayIncome = 0;
+  let weekIncome = 0;
+  let monthIncome = 0;
+
+
+  works.forEach(work => {
+
+    if (work.date === today) {
+      todayIncome += work.income;
     }
-  </script>
+
+
+    if (
+      new Date(work.date + "T00:00:00")
+      >= monday
+    ) {
+      weekIncome += work.income;
+    }
+
+
+    if (work.date.startsWith(month)) {
+      monthIncome += work.income;
+    }
+
+  });
+
+
+  document.getElementById("todayIncome")
+    .innerText =
+    "$" + todayIncome.toFixed(2);
+
+
+  document.getElementById("weekIncome")
+    .innerText =
+    "$" + weekIncome.toFixed(2);
+
+
+  document.getElementById("monthIncome")
+    .innerText =
+    "$" + monthIncome.toFixed(2);
+
+
+  const list =
+    document.getElementById("workList");
+
+
+  if (works.length === 0) {
+
+    list.innerHTML =
+      '<div class="empty">目前還沒有工作紀錄</div>';
+
+    return;
+  }
+
+
+  const sorted =
+    [...works].sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    );
+
+
+  list.innerHTML =
+    sorted.slice(0,10).map(work => `
+
+      <div class="work-item">
+
+        <div class="work-date">
+          ${work.date}
+          ${work.type === "white"
+            ? "🤍 白工"
+            : "💵 現金"}
+        </div>
+
+        <div class="work-detail">
+          ${work.start} - ${work.end}
+          · ${work.hours.toFixed(2)} 小時
+        </div>
+
+        <div class="work-detail">
+          時薪 $${work.rate.toFixed(2)}
+          ${work.note
+            ? " · " + work.note
+            : ""}
+        </div>
+
+        <div class="work-money">
+          +$${work.income.toFixed(2)}
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+render();
+
+</script>
 
 </body>
 </html>
